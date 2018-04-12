@@ -1,3 +1,4 @@
-## Peek into Indian Premier League
+### Team : 
+Anjani Bajaj 
 
-# Team : Anjani Bajaj, Bhargavi Kommineni
+Bhargavi Kommineni
