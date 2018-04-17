@@ -16,7 +16,7 @@
 
 			d3.json("teams_by_year.json", function(data) {
 				keys = d3.keys(data);
-				var year = 2011;
+				var year = 2012;
 
 		 var margin = {top: 50, right: 100, bottom: 50, left: 100};
 		 var svg = d3.select("body")
@@ -31,7 +31,7 @@
 					.attr("font-weight","bold")
 					.style("font-size", "16px")
 					.style("text-decoration", "underline")
-					.text("Bar chart for IPL data during 2011");
+					.text("Bar chart for IPL data during 2012");
 
 			w = svg.attr("width") - margin.left - margin.right;
 			h = svg.attr("height") - margin.top - margin.bottom;
@@ -51,14 +51,17 @@
 
 			var nested_data = d3.nest()
 													.key(function(d) {
-															return d.winner;})
+														if(d.winner != "")
+															return d.winner;
+														})
 													.rollup(function(d) {
 														return d3.sum(d, function(g) {
-
-																return 1;
+																if(g.winner != "")
+																	return 1;
 														});
 												}).entries(teams_year_data);
-
+			nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;})
+			console.log(nested_data);
 			nested_data.forEach(function(d) {
 			 d.Team = d.key;
 			 d.Wins = +d.value;
