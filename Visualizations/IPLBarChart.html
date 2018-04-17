@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Bar Chart</title>
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var w = 1000;
+			var h = 500;
+
+      d3.csv("matches.csv", function(matches_data) {
+
+			d3.json("teams_by_year.json", function(data) {
+				keys = d3.keys(data);
+				var year = 2011;
+
+		 var margin = {top: 50, right: 100, bottom: 50, left: 100};
+		 var svg = d3.select("body")
+								.append("svg")
+								.attr("width", w)
+								.attr("height", h);
+
+			svg.append("text")
+					.attr("x", (w)/2)
+					.attr("y", (margin.top / 4))
+					.attr("text-anchor", "middle")
+					.attr("font-weight","bold")
+					.style("font-size", "16px")
+					.style("text-decoration", "underline")
+					.text("Bar chart for IPL data during 2011");
+
+			w = svg.attr("width") - margin.left - margin.right;
+			h = svg.attr("height") - margin.top - margin.bottom;
+
+			var year_data = d3.nest()
+			                  .key(function(d) {
+													return d.season
+												})
+												.entries(matches_data);
+			let teams_year_data;
+			year_data.forEach(function(d){
+				if(+d.key == year)
+				{
+					teams_year_data = d.values;
+				}
+			});
+
+			var nested_data = d3.nest()
+													.key(function(d) {
+															return d.winner;})
+													.rollup(function(d) {
+														return d3.sum(d, function(g) {
+
+																return 1;
+														});
+												}).entries(teams_year_data);
+
+			nested_data.forEach(function(d) {
+			 d.Team = d.key;
+			 d.Wins = +d.value;
+			});
+
+			var xScale = d3.scaleBand()
+							.domain(nested_data.map(function(d) { return d.Team; }))
+							.rangeRound([0, w])
+							.paddingInner(0.15);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, d3.max(nested_data, function(d) { return d.Wins;})])
+							.rangeRound([h,0]);
+
+			var g = svg.append("g")
+								 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			g.append("g")
+			 .attr("class", "x-axis")
+			 .attr("transform", "translate(0," + h + ")")
+			 .call(d3.axisBottom(xScale))
+			 .selectAll("text")
+			 .attr("y", 10)
+			 .attr("x", 9)
+			 .attr("dy", ".35em")
+			 .style("font-size","6px")
+			 .style("text-anchor", "middle");
+
+			g.append("g")
+			 .attr("class", "y-axis")
+			 .call(d3.axisLeft(yScale).ticks(10))
+			 .append("text")
+			 .attr("transform", "rotate(-90)")
+			 .attr("y", 6)
+			 .attr("dy", "0.71em")
+			 .attr("text-anchor", "end");
+
+
+			g.selectAll("rect")
+				.data(nested_data)
+				.enter()
+				.append("rect")
+				.style("fill", function(d)
+				{
+					if(d.Team == "Chennai Super Kings")
+						return "FFFF33";
+					else if(d.Team == "Kolkata Knight Riders")
+						return "990099";
+					else if(d.Team == "Royal Challengers Bangalore")
+					  return "CC0000";
+					else if(d.Team == "Kings XI Punjab")
+						return "FF3333";
+					else if(d.Team == "Rajasthan Royals")
+						return "3333FF";
+					else if(d.Team == "Delhi Daredevils")
+						return "004C99";
+					else if(d.Team == "Mumbai Indians")
+						return "0080FF";
+					else if(d.Team == "Deccan Chargers")
+						return "FF8000";
+					else if(d.Team == "Kochi Tuskers Kerala")
+						return "CC6600";
+					else if(d.Team == "Pune Warriors")
+						return "404040";
+				}
+			  )
+				.attr("width", xScale.bandwidth())
+				.attr("x", function(d) { return xScale(d.Team); })
+				.attr("y", function(d) { return yScale(d.Wins); })
+				.attr("height", function(d) { return h - yScale(d.Wins); });
+
+
+			svg.append("text")
+				.attr("text-anchor", "middle")
+				.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+				.attr("font-weight","bold")
+				.text("No of wins");
+				});
+
+      });
+		</script>
+	</body>
+</html>
