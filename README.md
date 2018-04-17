@@ -4,6 +4,8 @@
 
 ## [Notes](https://docs.google.com/document/d/1lSc4E7B8FTIiY3WnjQDdcCs23JhIhWPhN9xIvkSEQvw/edit)
 
+# Alpha Release
+
 ## Data Processing
 
 For data processing, as mentioned in the project proposal, dataset doesn't provide the names of players in
