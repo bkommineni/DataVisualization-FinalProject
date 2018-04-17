@@ -1,4 +1,4 @@
-### Team : Anjani Bajaj , Bhargavi Kommineni
+# Team : Anjani Bajaj , Bhargavi Kommineni
 
 ## [Project Proposal](https://docs.google.com/document/d/1thCe2jO5nzHneGDZ3bGYMHAQf7JScdcBN7u2UjIFCOk/edit#heading=h.qiry0ekz43dl)
 
@@ -10,7 +10,7 @@ For data processing, as mentioned in the project proposal, dataset doesn't provi
 each team during different years. As that information is required to analyze players across different teams
 during different years, we have extracted that information from the existing data in json format.
 
-# Steps involved:
+### Steps involved:
 
 1.Filter match ids of each year and store year with respective match ids from [matches.csv](https://github.com/bkommineni/DataVisualization-FinalProject/blob/master/data/matches.csv)
 
@@ -19,7 +19,7 @@ batting team and players under "bowler" to bowling team
 
 3.Verified the output of above process with the actual data available in [IPLT20](https://www.iplt20.com/) website
 
-Below are the sample static visualizations generated using the processed data for different years:
+## Below are the sample static visualizations generated using the processed data for different years:
 
 ![alt tag](./images/IPL2008BarChart.png)
 
