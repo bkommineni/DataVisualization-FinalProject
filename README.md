@@ -30,3 +30,9 @@ batting team and players under "bowler" to bowling team
 ![alt tag](./images/IPL2011BarChart.png)
 
 ![alt tag](./images/IPL2012BarChart.png)
+
+## Below are the sample static visualizations using geomap for 2008 and 2017:
+
+![alt tag](./images/Map2008.png)
+
+![alt tag](./images/Map2017.png)
