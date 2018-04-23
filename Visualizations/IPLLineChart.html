@@ -11,7 +11,10 @@
 		<script type="text/javascript">
 			var w = 1000;
 			var h = 500;
-
+			var seasonMatches = new Map()
+			var batsman = "DA Warner";
+			// var selected_batsman = "DA";
+			var totalRuns = []
 			// //line function
 			// var line = d3.line()
 			//     .x(function(d) { console.log("x:", x(d.key));
@@ -19,104 +22,75 @@
 			//     .y(function(d) { console.log("y:", y(d.value.numRuns));return y(d.value.numRuns); }) // set the y values for the line generator
 			//     .curve(d3.curveMonotoneX) // apply smoothing to the line
 
-			d3.csv("deliveries_with_year.csv", function(data) {
+      d3.csv("matches.csv", function(matches_data) {
+
+			d3.csv("deliveries.csv", function(data) {
 				keys = d3.keys(data);
-				var batsman = "DA Warner";
 
-		 var margin = {top: 50, right: 100, bottom: 50, left: 100};
-		 var svg = d3.select("body")
-								.append("svg")
-								.attr("width", w)
-								.attr("height", h);
+			 var margin = {top: 50, right: 100, bottom: 50, left: 100};
+			 var svg = d3.select("body")
+									.append("svg")
+									.attr("width", w)
+									.attr("height", h);
 
-			svg.append("text")
-					.attr("x", (w)/2)
-					.attr("y", (margin.top / 4))
-					.attr("text-anchor", "middle")
-					.attr("font-weight","bold")
-					.style("font-size", "16px")
-					.style("text-decoration", "underline")
-					.text("IPL Data - Line chart for Batsman: " + batsman);
+				svg.append("text")
+						.attr("x", (w)/2)
+						.attr("y", (margin.top / 4))
+						.attr("text-anchor", "middle")
+						.attr("font-weight","bold")
+						.style("font-size", "16px")
+						.style("text-decoration", "underline")
+						.text("IPL Data - Line chart for Batsman: " + batsman);
 
-			w = svg.attr("width") - margin.left - margin.right;
-			h = svg.attr("height") - margin.top - margin.bottom;
+				w = svg.attr("width") - margin.left - margin.right;
+				h = svg.attr("height") - margin.top - margin.bottom;
 
-			var season_map = d3.nest()
-			                  .key(function(d) {
-													return d.id
-												})
-												.key(function(d){
-													return d.season
-												})
-												.entries(matches_data);
+				//Fetching the data
+				matches_data.forEach(function(d){
+						if(!seasonMatches.get(+d.season)){
+							var ids = [];
+							ids.push(+d.id);
+							seasonMatches.set(+d.season,ids);
+						}
+						else {
+							var ids = seasonMatches.get(+d.season);
+							ids.push(+d.id);
+							seasonMatches.set(+d.season,ids);
+						}
+				});
 
-			console.log("season map", season_map);
-			var batsman_data = d3.nest()
-			                  .key(function(d) {
-													return d.match_id
-												})
-												.key(function(d){
-													return d.batsman
-												})
-												.entries(data);
-
-			console.log("batsman data=", batsman_data);
-			let single_player_data;
-
-			// var nested_data = d3.nest()
-			// 										.key(function(d) {
-			// 												return d.season
-			// 											})
-			// 										.key(function(d){
-			// 											return d.batsman
-			// 										})
-			// 										.rollup(function(d) {
-			// 											return d3.sum(d, function(g) {
-			// 													if(g.winner != "")
-			// 														return 1;
-			// 											});
-			// 									}).entries(teams_year_data);
-			// batsman_data.forEach(function(d){
-			// 	if(d.key == batsman){
-			// 		console.log("Values:", d.values, "d=", d);
-			// 		single_player_data = d.values;
-			// 	}
-			// });
-			let spd = [];
-
-			// MAPPING
-			season_map.forEach(function(d){
-				batsman_data.forEach(function(f){
-					if(d.key == f.key){
-						f.values.forEach(function(fval){
-							if(fval.key == batsman){ //Given batsman
-								single_player_data = (fval.values)
-								spd.push(fval.values)
-							}
-						})
-					}
-				})
-			});
-			console.log("Single player data=",single_player_data);
-
-			var nested_data = d3.nest()
-													.key(function(d) {
-														if(d.season != "")
-															return d.season;
-														})
-													.rollup(function(d) {
-														return d3.sum(d, function(g) {
-																if(g.winner != "")
-																	return 1;
+			console.log("Season matches=", seasonMatches);
+			var allYearPlayerMap = new Map()
+			// var matches = seasonMatches.get(selected_year);
+			var years = Array.from(seasonMatches.keys())
+			years.forEach(function(s){
+				// console.log(s);
+				var matches = seasonMatches.get(s)
+				var nested_data = d3.nest()
+														.key(function(d) {
+															if(matches.includes(+d.match_id))
+																if(d.batsman == batsman){
+																	return d.batsman
+																}
+																// return d.batsman;
+															})
+														.rollup(function(d) {
+															return d3.sum(d, function(g) {
+																	if(g.total_runs != "")
+																	{
+																		totalRuns.push(g.total_runs);
+																		return 1;
+																	}
 														});
-												}).entries(single_player_data);
-			nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;})
-			console.log(nested_data);
-			nested_data.forEach(function(d) {
-			 d.Team = d.key;
-			 d.Wins = +d.value;
-			});
-
+														})
+														.entries(data);
+				nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;});
+				nested_data.forEach(function(val){
+					allYearPlayerMap.set(s, val.value)
+				})
+			})
+			console.log(allYearPlayerMap);
+			// Scaling
 			var xScale = d3.scaleBand()
 							.domain(nested_data.map(function(d) { return d.Team; }))
 							.rangeRound([0, w])
