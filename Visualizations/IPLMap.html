@@ -12,9 +12,9 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
     <script>
-		var selected_year = 2017;
+		var selected_year = 2011;
 
-    var width = window.innerWidth, height = window.innerHeight;
+    var width = 800, height = 600;
 
 		var teamsMap = new Map();
 		teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamilnadu"});
@@ -30,7 +30,9 @@
 		teamsMap.set("Pune Warriors",{"color":"#bc80bd","state":"Maharashtra"});
 		teamsMap.set("Gujarat Lions",{"color":"#ccebc5","state":"Gujarat"});
 
-    var projection = d3.geoMercator();
+    var projection = d3.geoMercator()
+											 .translate([width/2,height/2])
+											 .scale([100]);
 
     var path = d3.geoPath()
         .projection(projection)
