@@ -19,9 +19,7 @@
 			//     .y(function(d) { console.log("y:", y(d.value.numRuns));return y(d.value.numRuns); }) // set the y values for the line generator
 			//     .curve(d3.curveMonotoneX) // apply smoothing to the line
 
-      d3.csv("matches.csv", function(matches_data) {
-
-			d3.csv("deliveries.csv", function(data) {
+			d3.csv("deliveries_with_year.csv", function(data) {
 				keys = d3.keys(data);
 				var batsman = "DA Warner";
 
@@ -38,7 +36,7 @@
 					.attr("font-weight","bold")
 					.style("font-size", "16px")
 					.style("text-decoration", "underline")
-					.text("Line chart for IPL data for Batsman " + batsman);
+					.text("IPL Data - Line chart for Batsman: " + batsman);
 
 			w = svg.attr("width") - margin.left - margin.right;
 			h = svg.attr("height") - margin.top - margin.bottom;
@@ -64,6 +62,20 @@
 
 			console.log("batsman data=", batsman_data);
 			let single_player_data;
+
+			// var nested_data = d3.nest()
+			// 										.key(function(d) {
+			// 												return d.season
+			// 											})
+			// 										.key(function(d){
+			// 											return d.batsman
+			// 										})
+			// 										.rollup(function(d) {
+			// 											return d3.sum(d, function(g) {
+			// 													if(g.winner != "")
+			// 														return 1;
+			// 											});
+			// 									}).entries(teams_year_data);
 			// batsman_data.forEach(function(d){
 			// 	if(d.key == batsman){
 			// 		console.log("Values:", d.values, "d=", d);
@@ -71,6 +83,7 @@
 			// 	}
 			// });
 			let spd = [];
+
 			// MAPPING
 			season_map.forEach(function(d){
 				batsman_data.forEach(function(f){
@@ -84,10 +97,7 @@
 					}
 				})
 			});
-			console.log("Single player data", spd);
 			console.log("Single player data=",single_player_data);
-
-			// })
 
 			var nested_data = d3.nest()
 													.key(function(d) {

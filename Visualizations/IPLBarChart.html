@@ -51,7 +51,7 @@
 
 			var year_data = d3.nest()
 			                  .key(function(d) {
-													return d.season
+														return d.season
 												})
 												.entries(matches_data);
 			let teams_year_data;
@@ -74,7 +74,7 @@
 														});
 												}).entries(teams_year_data);
 			nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;})
-			console.log(nested_data);
+			console.log("Nested Data:", nested_data);
 			nested_data.forEach(function(d) {
 			 d.Team = d.key;
 			 d.Wins = +d.value;
