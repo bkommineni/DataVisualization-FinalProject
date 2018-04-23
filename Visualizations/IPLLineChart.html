@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Line Chart</title>
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var w = 1000;
+			var h = 500;
+
+			// //line function
+			// var line = d3.line()
+			//     .x(function(d) { console.log("x:", x(d.key));
+			//     return x(d.key); }) // set the x values for the line generator
+			//     .y(function(d) { console.log("y:", y(d.value.numRuns));return y(d.value.numRuns); }) // set the y values for the line generator
+			//     .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+      d3.csv("matches.csv", function(matches_data) {
+
+			d3.csv("deliveries.csv", function(data) {
+				keys = d3.keys(data);
+				var batsman = "DA Warner";
+
+		 var margin = {top: 50, right: 100, bottom: 50, left: 100};
+		 var svg = d3.select("body")
+								.append("svg")
+								.attr("width", w)
+								.attr("height", h);
+
+			svg.append("text")
+					.attr("x", (w)/2)
+					.attr("y", (margin.top / 4))
+					.attr("text-anchor", "middle")
+					.attr("font-weight","bold")
+					.style("font-size", "16px")
+					.style("text-decoration", "underline")
+					.text("Line chart for IPL data for Batsman " + batsman);
+
+			w = svg.attr("width") - margin.left - margin.right;
+			h = svg.attr("height") - margin.top - margin.bottom;
+
+			var season_map = d3.nest()
+			                  .key(function(d) {
+													return d.id
+												})
+												.key(function(d){
+													return d.season
+												})
+												.entries(matches_data);
+
+			console.log("season map", season_map);
+			var batsman_data = d3.nest()
+			                  .key(function(d) {
+													return d.match_id
+												})
+												.key(function(d){
+													return d.batsman
+												})
+												.entries(data);
+
+			console.log("batsman data=", batsman_data);
+			let single_player_data;
+			// batsman_data.forEach(function(d){
+			// 	if(d.key == batsman){
+			// 		console.log("Values:", d.values, "d=", d);
+			// 		single_player_data = d.values;
+			// 	}
+			// });
+			let spd = [];
+			// MAPPING
+			season_map.forEach(function(d){
+				batsman_data.forEach(function(f){
+					if(d.key == f.key){
+						f.values.forEach(function(fval){
+							if(fval.key == batsman){ //Given batsman
+								single_player_data = (fval.values)
+								spd.push(fval.values)
+							}
+						})
+					}
+				})
+			});
+			console.log("Single player data", spd);
+			console.log("Single player data=",single_player_data);
+
+			// })
+
+			var nested_data = d3.nest()
+													.key(function(d) {
+														if(d.season != "")
+															return d.season;
+														})
+													.rollup(function(d) {
+														return d3.sum(d, function(g) {
+																if(g.winner != "")
+																	return 1;
+														});
+												}).entries(single_player_data);
+			nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;})
+			console.log(nested_data);
+			nested_data.forEach(function(d) {
+			 d.Team = d.key;
+			 d.Wins = +d.value;
+			});
+
+			var xScale = d3.scaleBand()
+							.domain(nested_data.map(function(d) { return d.Team; }))
+							.rangeRound([0, w])
+							.paddingInner(0.15);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, d3.max(nested_data, function(d) { return d.Wins;})])
+							.rangeRound([h,0]);
+
+			var g = svg.append("g")
+								 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			g.append("g")
+			 .attr("class", "x-axis")
+			 .attr("transform", "translate(0," + h + ")")
+			 .call(d3.axisBottom(xScale))
+			 .selectAll("text")
+			 .attr("y", 10)
+			 .attr("x", 9)
+			 .attr("dy", ".35em")
+			 .style("font-size","6px")
+			 .style("text-anchor", "middle");
+
+			g.append("g")
+			 .attr("class", "y-axis")
+			 .call(d3.axisLeft(yScale).ticks(10))
+			 .append("text")
+			 .attr("transform", "rotate(-90)")
+			 .attr("y", 6)
+			 .attr("dy", "0.71em")
+			 .attr("text-anchor", "end");
+
+			//
+			// g.selectAll("rect")
+			// 	.data(nested_data)
+			// 	.enter()
+			// 	.append("rect")
+			// 	.style("fill", function(d){ return teamsMap.get(d.Team).color;})
+			// 	.attr("width", xScale.bandwidth())
+			// 	.attr("x", function(d) { return xScale(d.Team); })
+			// 	.attr("y", function(d) { return yScale(d.Wins); })
+			// 	.attr("height", function(d) { return h - yScale(d.Wins); });
+			console.log("Nested Data:", nested_data);
+			svg.append("path")
+		      .datum(nested_data)
+		      .attr("fill", "none")
+		      .attr("stroke", "steelblue")
+		      .attr("stroke-linejoin", "round")
+		      .attr("stroke-linecap", "round")
+		      .attr("stroke-width", 1.5)
+		      .attr("d", line);
+
+			svg.append("text")
+				.attr("text-anchor", "middle")
+				.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+				.attr("font-weight","bold")
+				.text("No of wins");
+				});
+
+      });
+		</script>
+	</body>
+</html>
