@@ -15,12 +15,6 @@
 			var batsman = "DA Warner";
 			// var selected_batsman = "DA";
 			var totalRuns = []
-			// //line function
-			// var line = d3.line()
-			//     .x(function(d) { console.log("x:", x(d.key));
-			//     return x(d.key); }) // set the x values for the line generator
-			//     .y(function(d) { console.log("y:", y(d.value.numRuns));return y(d.value.numRuns); }) // set the y values for the line generator
-			//     .curve(d3.curveMonotoneX) // apply smoothing to the line
 
       d3.csv("matches.csv", function(matches_data) {
 
@@ -59,7 +53,6 @@
 						}
 				});
 
-			console.log("Season matches=", seasonMatches);
 			var allYearPlayerMap = new Map()
 			// var matches = seasonMatches.get(selected_year);
 			var years = Array.from(seasonMatches.keys())
@@ -72,7 +65,6 @@
 																if(d.batsman == batsman){
 																	return d.batsman
 																}
-																// return d.batsman;
 															})
 														.rollup(function(d) {
 															return d3.sum(d, function(g) {
@@ -90,18 +82,29 @@
 				})
 			})
 			console.log(allYearPlayerMap);
+
+			allYearPlayerArray = Array.from(allYearPlayerMap)
+			console.log(allYearPlayerArray);
+
+			allYearPlayerArray.sort()
 			// Scaling
 			var xScale = d3.scaleBand()
-							.domain(nested_data.map(function(d) { return d.Team; }))
+							.domain(allYearPlayerArray.map(function(d) { console.log(d[0]);return d[0]; }))
 							.rangeRound([0, w])
-							.paddingInner(0.15);
+							.paddingInner(1);
 
 			var yScale = d3.scaleLinear()
-							.domain([0, d3.max(nested_data, function(d) { return d.Wins;})])
+							.domain([0, d3.max(allYearPlayerArray, function(d) { return d[1];})])
 							.rangeRound([h,0]);
 
 			var g = svg.append("g")
 								 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			//line function
+			var line = d3.line()
+								.x(function(d) { console.log("x:", d[0]);return xScale(d[0]); }) // set the x values for the line generator
+								.y(function(d) { console.log("y:", d[1]);return yScale(d[1]); }) // set the y values for the line generator
+							.curve(d3.curveMonotoneX) // apply smoothing to the line
 
 			g.append("g")
 			 .attr("class", "x-axis")
@@ -111,7 +114,6 @@
 			 .attr("y", 10)
 			 .attr("x", 9)
 			 .attr("dy", ".35em")
-			 .style("font-size","6px")
 			 .style("text-anchor", "middle");
 
 			g.append("g")
@@ -123,19 +125,9 @@
 			 .attr("dy", "0.71em")
 			 .attr("text-anchor", "end");
 
-			//
-			// g.selectAll("rect")
-			// 	.data(nested_data)
-			// 	.enter()
-			// 	.append("rect")
-			// 	.style("fill", function(d){ return teamsMap.get(d.Team).color;})
-			// 	.attr("width", xScale.bandwidth())
-			// 	.attr("x", function(d) { return xScale(d.Team); })
-			// 	.attr("y", function(d) { return yScale(d.Wins); })
-			// 	.attr("height", function(d) { return h - yScale(d.Wins); });
-			console.log("Nested Data:", nested_data);
 			svg.append("path")
-		      .datum(nested_data)
+		      .datum(allYearPlayerArray)
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 		      .attr("fill", "none")
 		      .attr("stroke", "steelblue")
 		      .attr("stroke-linejoin", "round")
@@ -147,9 +139,14 @@
 				.attr("text-anchor", "middle")
 				.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
 				.attr("font-weight","bold")
-				.text("No of wins");
-				});
+				.text("Total number of runs");
 
+			svg.append("text")
+					.attr("text-anchor", "middle")
+					.attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
+					.attr("font-weight","bold")
+					.text("Year");
+					});
       });
 		</script>
 	</body>
