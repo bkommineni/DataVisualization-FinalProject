@@ -8,12 +8,13 @@
 		</style>
 	</head>
 	<body>
+		<div id='vis-container'></div>
 		<script type="text/javascript">
 			var w = 1000;
 			var h = 500;
       var seasonMatches = new Map();
       var dismissal_types = [];
-      var selected_year = 2012;
+      var selected_year = 2008;
 
       d3.csv("matches.csv", function(matches_data) {
 
@@ -23,15 +24,6 @@
   								.append("svg")
   								.attr("width", w)
   								.attr("height", h);
-
-			 svg.append("text")
-					.attr("x", (w)/2)
-					.attr("y", (margin.top / 4))
-					.attr("text-anchor", "middle")
-					.attr("font-weight","bold")
-					.style("font-size", "16px")
-					.style("text-decoration", "underline")
-					.text("Stacked Bar chart for IPL data during 2012");
 
        w = svg.attr("width") - margin.left - margin.right;
 			 h = svg.attr("height") - margin.top - margin.bottom;
@@ -50,7 +42,11 @@
             }
         });
 
-      var matches = seasonMatches.get(selected_year);
+			var initialGraph = function(year){
+
+			d3.select("g").remove();
+
+      var matches = seasonMatches.get(+year);
 
       var nested_data = d3.nest()
                           .key(function(d) {
@@ -141,6 +137,15 @@
       var g = svg.append("g")
 								 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+		  g.append("text")
+				.attr("x", (w)/2)
+				.attr("y", -(margin.top / 4))
+				.attr("text-anchor", "middle")
+				.attr("font-weight","bold")
+				.style("font-size", "16px")
+				.style("text-decoration", "underline")
+				.text("Stacked Bar chart for IPL data during "+year);
+
       g.append("g")
 				.selectAll("g")
 	      .data(series)
@@ -185,11 +190,7 @@
 						.attr("dy", "0.71em")
 						.attr("text-anchor", "end");
 
-					svg.append("text")
-						.attr("text-anchor", "middle")
-						.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
-						.attr("font-weight","bold")
-						.text("No of dismissals");
+
 
 						var legend = g.append("g")
 										      .attr("font-family", "sans-serif")
@@ -214,11 +215,39 @@
 					      .attr("dy", "0.32em")
 					      .text(function(d) { return d; })
 								.style("text-anchor", "start");
+							}
+							initialGraph(selected_year);
+
+							var years = [];
+
+							for (var [key, value] of seasonMatches) {
+							  years.push(key);
+							}
+							years = years.sort();
+							console.log(years);
+
+							svg.append("text")
+								.attr("text-anchor", "middle")
+								.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+								.attr("font-weight","bold")
+								.text("No of dismissals");
+
+							var dropdown = d3.select("#vis-container")
+							.insert("select", "svg")
+							.on("change", function(){
+								var selected_year = d3.select(this).property('value')
+								initialGraph(selected_year)
+							});
+
+							dropdown.selectAll("option")
+							.data(years)
+							.enter().append("option")
+							.attr("value", function (d) { return d; })
+							.text(function (d) {
+								return d;
+							});
 
       });
-
-
-
       });
 		</script>
 	</body>

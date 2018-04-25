@@ -48,15 +48,8 @@
 			// var matches = seasonMatches.get(selected_year);
 			var initialGraph = function(batsman){
 
-				svg.append("text")
-				.attr("x", (w)/2)
-				.attr("y", (margin.top / 4))
-				.attr("text-anchor", "middle")
-				.attr("font-weight","bold")
-				.style("font-size", "16px")
-				.style("text-decoration", "underline")
-				.text("IPL Data - Line chart for Batsman: " + batsman);
-				
+				d3.select("g").remove();
+
 					var years = Array.from(seasonMatches.keys())
 					years.forEach(function(s){
 						// console.log(s);
@@ -103,6 +96,15 @@
 					var g = svg.append("g")
 					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+					g.append("text")
+					.attr("x", (w)/2)
+					.attr("y", -(margin.top / 4))
+					.attr("text-anchor", "middle")
+					.attr("font-weight","bold")
+					.style("font-size", "16px")
+					.style("text-decoration", "underline")
+					.text("IPL Data - Line chart for Batsman: " + batsman);
+
 					//line function
 					var line = d3.line()
 					.x(function(d) { return xScale(d[0]); }) // set the x values for the line generator
@@ -128,9 +130,8 @@
 					.attr("dy", "0.71em")
 					.attr("text-anchor", "end");
 
-					svg.append("path")
+					g.append("path")
 					.datum(allYearPlayerArray)
-					.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 					.attr("fill", "none")
 					.attr("stroke", "steelblue")
 					.attr("stroke-linejoin", "round")
