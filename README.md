@@ -46,3 +46,13 @@ In 2011:
 In 2017:
 
 ![alt tag](./images/Map2017.png)
+
+## Below are the sample static visualizations of Stacked Bar chart:
+
+In 2011:
+
+![alt tag](./images/IPLStackedBar2011.png)
+
+In 2012:
+
+![alt tag](./images/IPLStackedBar2012.png)
