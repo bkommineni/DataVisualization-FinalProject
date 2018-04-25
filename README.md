@@ -57,4 +57,12 @@ In 2012:
 
 ![alt tag](./images/IPLStackedBar2012.png)
 
+<iframe width="1000" height="500" src="./Visualizations/IPLMap.html" frameborder="0" allowfullscreen></iframe>
+
 <iframe width="1000" height="500" src="./Visualizations/IPLBarChart.html" frameborder="0" allowfullscreen></iframe>
+
+<iframe width="1000" height="500" src="./Visualizations/IPLLineChart.html" frameborder="0" allowfullscreen></iframe>
+
+<iframe width="1000" height="500" src="./Visualizations/IPLLineChartTeam.html" frameborder="0" allowfullscreen></iframe>
+
+<iframe width="1000" height="500" src="./Visualizations/IPLStackedBarChart.html" frameborder="0" allowfullscreen></iframe>
