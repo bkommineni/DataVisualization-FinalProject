@@ -56,3 +56,5 @@ In 2011:
 In 2012:
 
 ![alt tag](./images/IPLStackedBar2012.png)
+
+<iframe width="560" height="315" src="./Visualizations/IPLBarChart.html" frameborder="0"></iframe>
