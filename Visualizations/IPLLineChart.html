@@ -8,6 +8,7 @@
 		</style>
 	</head>
 	<body>
+		<div id='vis-container'></div>
 		<script type="text/javascript">
 			var w = 1000;
 			var h = 500;
@@ -89,7 +90,7 @@
 			allYearPlayerArray.sort()
 			// Scaling
 			var xScale = d3.scaleBand()
-							.domain(allYearPlayerArray.map(function(d) { console.log(d[0]);return d[0]; }))
+							.domain(allYearPlayerArray.map(function(d) { return d[0]; }))
 							.rangeRound([0, w])
 							.paddingInner(1);
 
@@ -146,8 +147,34 @@
 					.attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
 					.attr("font-weight","bold")
 					.text("Year");
+
+					var dropdown = d3.select("#vis-container")
+									 .insert("select", "svg")
+									 // .on("change", dropdownChange);
+					console.log(data);
+					var unique_players = []
+					data.forEach(function(d){
+						if(!unique_players.includes(d.batsman)){
+								unique_players.push(d.batsman)
+						}
+						if(!unique_players.includes(d.bowler)){
+								unique_players.push(d.bowler)
+						}
+					})
+				console.log(unique_players);
+				unique_players =  unique_players.sort();
+
+			 dropdown.selectAll("option")
+					 .data(unique_players)
+				 .enter().append("option")
+					 .attr("value", function (d) { return d; })
+					 .text(function (d) {
+							 return d[0].toUpperCase() + d.slice(1,d.length); // capitalize 1st letter
+					 });
 					});
       });
+
+
 		</script>
 	</body>
 </html>
