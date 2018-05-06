@@ -6,9 +6,9 @@
   var totalRuns = []
   var xScale, yScale;
 
-  d3.csv("matches.csv", function(matches_data) {
+  d3.csv("./Visualizations/matches.csv", function(matches_data) {
 
-    d3.csv("deliveries.csv", function(data) {
+    d3.csv("./Visualizations/deliveries.csv", function(data) {
       keys = d3.keys(data);
 
       var margin = {top: 50, right: 100, bottom: 50, left: 100};

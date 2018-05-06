@@ -2,9 +2,9 @@
   var w = 800;
   var h = 250;
 
-  d3.csv("matches.csv", function(matches_data) {
+  d3.csv("./Visualizations/matches.csv", function(matches_data) {
 
-    d3.json("teams_by_year.json", function(data) {
+    d3.json("./Visualizations/teams_by_year.json", function(data) {
       keys = d3.keys(data);
       var year = 2012;
       var margin = {top: 50, right: 100, bottom: 50, left: 100};

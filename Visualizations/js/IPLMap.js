@@ -30,11 +30,11 @@
 
   var g = svg.append("g");
 
-  d3.json("india.json", function(error, geodata){
+  d3.json("./Visualizations/india.json", function(error, geodata){
 
-    d3.csv("matches.csv", function(matches_data) {
+    d3.csv("./Visualizations/matches.csv", function(matches_data) {
 
-    d3.json("teams_by_year.json", function(data) {
+    d3.json("./Visualizations/teams_by_year.json", function(data) {
         var boundary = centerZoom(geodata);
         drawOuterBoundary(geodata, boundary);
         //var teams = getTeamsInParticularYear(data,selected_year);

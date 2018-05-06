@@ -17,9 +17,9 @@
 	teamsMap.set("Rising Pune Supergiant",{"color":"#bc80bd","state":"Maharashtra"});
 	teamsMap.set("Gujarat Lions",{"color":"#ccebc5","state":"Gujarat"});
 
-	d3.csv("matches.csv", function(matches_data) {
+	d3.csv("./Visualizations/matches.csv", function(matches_data) {
 
-		d3.json("teams_by_year.json", function(data) {
+		d3.json("./Visualizations/teams_by_year.json", function(data) {
 			keys = d3.keys(data);
 			var year = 2012;
 
