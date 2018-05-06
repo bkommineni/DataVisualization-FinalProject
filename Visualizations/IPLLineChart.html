@@ -36,7 +36,6 @@
 </head>
 <body>
 	<div id="tooltip" class="hidden">
-		<!-- <p><strong>Team</strong></p> -->
 		<p><span id="value"></span></p>
 	</div>
 	<div id='vis-container'></div>
@@ -189,20 +188,19 @@
 
 					//tooltip path
 					g.selectAll("#tooltip_path").data(d).enter().append("line")
-            .attr("id", "tooltip_path")
-            .attr("class", "line")
-            .attr("d", line)
-            .attr("x1", xScale(d[0]))
-            .attr("x2", xScale(d[0]))
-            .attr("y1", h)
-            .attr("y2", yScale(d[1]))
-            .attr("stroke", "steelblue")
-            .style("stroke-dasharray", ("3, 3"));
-
+	          .attr("id", "tooltip_path")
+	          .attr("class", "line")
+	          .attr("d", line)
+	          .attr("x1", xScale(d[0]))
+	          .attr("x2", xScale(d[0]))
+	          .attr("y1", h)
+	          .attr("y2", yScale(d[1]))
+	          .attr("stroke", "steelblue")
+	          .style("stroke-dasharray", ("3, 3"));
 				})
 				.on("mouseout", function(d) {
-					d3.select("#tooltip").classed("hidden", true);
-					g.selectAll("#tooltip_path").remove();
+						d3.select("#tooltip").classed("hidden", true);
+						g.selectAll("#tooltip_path").remove();
 				});
 
 			}//Function initialGraph ends
@@ -224,9 +222,9 @@
 			var dropdown = d3.select("#vis-container")
 			.insert("select", "svg")
 			.on("change", function(){
-				var selected_batsman = d3.select(this).property('value')
-				console.log("Selected batsman=", selected_batsman)
-				// Run update function with the selected batsman
+
+			var selected_batsman = d3.select(this).property('value')
+			// Run update function with the selected batsman
 				initialGraph(selected_batsman)
 			});
 
@@ -243,11 +241,11 @@
 
 			dropdown.selectAll("option")
 			.data(unique_players)
-			.enter().append("option")
-			.attr("value", function (d) { return d; })
+				.enter().append("option")
+				.attr("value", function (d) { return d; })
 			.text(function (d) {
-				return d[0].toUpperCase() + d.slice(1,d.length); // capitalize 1st letter
-			});
+					return d[0].toUpperCase() + d.slice(1,d.length); // capitalize 1st letter
+				});
 		});
 	});
 	</script>

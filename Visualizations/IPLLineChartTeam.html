@@ -5,15 +5,42 @@
 	<title>Line Trends For Teams</title>
 	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 	<style type="text/css">
+	#tooltip {
+		position: absolute;
+		width: 200px;
+		height: auto;
+		padding: 10px;
+		background-color: white;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+		-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+		box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+		pointer-events: none;
+		opacity:0.8;
+	}
+
+	#tooltip.hidden {
+		display: none;
+	}
+
+	#tooltip p {
+		margin: 0;
+		font-family: sans-serif;
+		font-size: 12px;
+		line-height: 20px;
+	}
 	</style>
 </head>
 <body>
 	<div id='vis-container'></div>
-
+	<div id="tooltip" class="hidden">
+		<p><span id="value"></span></p>
+	</div>
 	<script type="text/javascript">
 	var w = 1000;
 	var h = 500;
-	var selected_team = "Kolkata Knight Riders"
 
 	d3.csv("matches.csv", function(matches_data) {
 
@@ -34,6 +61,17 @@
 				return d.winner
 			})
 			.entries(matches_data);
+
+			var teams = []
+			team_data.forEach(function(d){
+				if(d.key != ""){
+					console.log(d.key);
+					teams.push(d.key)
+				}
+			})
+			sorted_teams =  teams.sort();
+
+			var selected_team = sorted_teams[0];
 
 			//Function for drawing the graph
 			var drawGraph = function(selected_team){
@@ -124,30 +162,42 @@
 				.attr("stroke-width", 1.5)
 				.attr("d", line);
 
+				g.selectAll("circle")
+				.data(nested_data).enter()
+				.append("circle")
+				.attr("cx", function(d) { return xScale(d.Year); })
+				.attr("cy", function(d) { return yScale(d.Wins); })
+				.attr("r", function(d, i) { return 4; })
+				.style("fill", "steelblue")
+				.on("mouseover", function(d){
+
+					d3.select("#tooltip")
+					.style("left", xScale(d.Year) + "px")
+					.style("top", yScale(d.Wins) + "px")
+					.select("#value")
+					.text(d.Wins + " wins in " + d.Year + " by "+ selected_team)
+					//Show the tooltip
+					d3.select("#tooltip").classed("hidden", false);
+					console.log("h=", yScale(d.Wins));
+					//tooltip path
+					g.selectAll("#tooltip_path")
+					.data([d]).enter().append("line")
+					.attr("id", "tooltip_path")
+					.attr("class", "line")
+					.attr("d", line)
+					.attr("x1", xScale(d.Year))
+					.attr("x2", xScale(d.Year))
+					.attr("y1", h)
+					.attr("y2", yScale(d.Wins))
+					.attr("stroke", "steelblue")
+					.style("stroke-dasharray", ("3, 3"));
+				})
+				.on("mouseout", function(d) {
+					d3.select("#tooltip").classed("hidden", true);
+					g.selectAll("#tooltip_path").remove();
+				});
 			}// drawGraph ends
 			drawGraph(selected_team);
-
-			svg.append("text")
-			.attr("text-anchor", "middle")
-			.attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
-			.attr("font-weight","bold")
-			.text("Year");
-
-			svg.append("text")
-			.attr("text-anchor", "middle")
-			.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
-			.attr("font-weight","bold")
-			.text("No of wins");
-
-			var teams = []
-			team_data.forEach(function(d){
-				if(d.key != ""){
-					console.log(d.key);
-					teams.push(d.key)
-				}
-			})
-			sorted_teams =  teams.sort();
-			console.log("Sorted teams=", sorted_teams);
 
 			var dropdown = d3.select("#vis-container")
 			.insert("select", "svg")
@@ -165,6 +215,18 @@
 			.text(function (d) {
 				return d;
 			});
+
+			svg.append("text")
+			.attr("text-anchor", "middle")
+			.attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
+			.attr("font-weight","bold")
+			.text("Year");
+
+			svg.append("text")
+			.attr("text-anchor", "middle")
+			.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+			.attr("font-weight","bold")
+			.text("No of wins");
 
 		});
 	});
