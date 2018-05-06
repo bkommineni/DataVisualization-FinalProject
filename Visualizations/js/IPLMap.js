@@ -140,7 +140,7 @@
                               .attr("x", xPosition)
                               .attr("y", yPosition-10);
                 teamlogo.attr("xlink:href", "");
-                teamlogo.attr("xlink:href", "./../Visualizations/images/"+teamsMap.get(d).img);
+                teamlogo.attr("xlink:href", "./Visualizations/images/"+teamsMap.get(d).img);
                 //d3.select("image").classed("hidden", true);
               }
             }
