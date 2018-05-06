@@ -36,7 +36,6 @@
 </head>
 <body>
 	<div id="tooltip" class="hidden">
-			<!-- <p><strong>Team</strong></p> -->
 			<p><span id="value"></span></p>
 	</div>
 	<div id='vis-container'></div>
@@ -201,7 +200,6 @@
 
 				});
 
-
 				console.log(d3.keys(year_data));
 				var years = [];
 				year_data.forEach(function(d){
@@ -216,11 +214,8 @@
 				.text(function (d) {
 					return d;
 				});
-
 			});
-
 		});
-
 		</script>
 	</body>
 	</html>
