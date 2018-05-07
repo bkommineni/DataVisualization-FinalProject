@@ -253,6 +253,19 @@
             .attr("dy", "0.32em")
             .text(function(d) { return d; })
             .style("text-anchor", "start");
+            // 
+            // svg.append("text")
+            // .attr("text-anchor", "start")
+            // .attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
+            // .attr("font-weight","bold")
+            // .text("Teams");
+
+            svg.append("text")
+              .attr("text-anchor", "middle")
+              .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+              .attr("font-weight","bold")
+              .text("No of dismissals");
+
           }
           initialGraph(selected_year);
 
@@ -264,11 +277,6 @@
           years = years.sort();
           // //console.log(years);
 
-          svg.append("text")
-            .attr("text-anchor", "middle")
-            .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
-            .attr("font-weight","bold")
-            .text("No of dismissals");
 
           var dropdown = d3.select("#vis-container-s")
           .insert("select", "svg")

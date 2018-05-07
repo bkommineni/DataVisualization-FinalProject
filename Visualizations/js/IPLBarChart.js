@@ -144,6 +144,12 @@
           .attr("font-weight","bold")
           .text("No of wins");
 
+          // svg.append("text")
+          // .attr("text-anchor", "middle")
+          // .attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
+          // .attr("font-weight","bold")
+          // .text("Teams");
+
 				}
 
 

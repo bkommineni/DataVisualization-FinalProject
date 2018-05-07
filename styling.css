@@ -15,7 +15,7 @@ header{
 header, footer {
     padding: 1em;
     color: white;
-    background-color: lightgray;
+    background-color: gray;
     clear: left;
     text-align: center;
 }
