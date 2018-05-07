@@ -6,20 +6,20 @@
   innerRadius = outerRadius-80;
 
   var teamsMap = new Map();
-	teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamilnadu"});
-	teamsMap.set("Kochi Tuskers Kerala",{"color":"#ffffb3","state":"Kerala"});
-	teamsMap.set("Royal Challengers Bangalore",{"color":"#bebada","state":"Karnataka"});
-	teamsMap.set("Kings XI Punjab",{"color":"#fb8072","state":"Punjab"});
-	teamsMap.set("Rajasthan Royals",{"color":"#80b1d3","state":"Rajasthan"});
-	teamsMap.set("Delhi Daredevils",{"color":"#fdb462","state":"NCT of Delhi"});
-	teamsMap.set("Mumbai Indians",{"color":"#b3de69","state":"Maharashtra"});
-	teamsMap.set("Deccan Chargers",{"color":"#fccde5","state":"Telangana"});
-	teamsMap.set("Sunrisers Hyderabad",{"color":"#fccde5","state":"Telangana"});
-	teamsMap.set("Kolkata Knight Riders",{"color":"#d9d9d9","state":"West Bengal"});
-	teamsMap.set("Pune Warriors",{"color":"#bc80bd","state":"Maharashtra"});
-	teamsMap.set("Rising Pune Supergiants",{"color":"#bc80bd","state":"Maharashtra"});
-	teamsMap.set("Rising Pune Supergiant",{"color":"#bc80bd","state":"Maharashtra"});
-	teamsMap.set("Gujarat Lions",{"color":"#ccebc5","state":"Gujarat"});
+  teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamilnadu","Short_name":"CSK"});
+  teamsMap.set("Kochi Tuskers Kerala",{"color":"#ffffb3","state":"Kerala","Short_name":"KTK"});
+  teamsMap.set("Royal Challengers Bangalore",{"color":"#bebada","state":"Karnataka","Short_name":"RCB"});
+  teamsMap.set("Kings XI Punjab",{"color":"#fb8072","state":"Punjab","Short_name":"KXIP"});
+  teamsMap.set("Rajasthan Royals",{"color":"#80b1d3","state":"Rajasthan","Short_name":"RR"});
+  teamsMap.set("Delhi Daredevils",{"color":"#fdb462","state":"NCT of Delhi","Short_name":"DD"});
+  teamsMap.set("Mumbai Indians",{"color":"#b3de69","state":"Maharashtra","Short_name":"MI"});
+  teamsMap.set("Deccan Chargers",{"color":"#fccde5","state":"Telangana","Short_name":"DC"});
+  teamsMap.set("Sunrisers Hyderabad",{"color":"#fccde5","state":"Telangana","Short_name":"SRH"});
+  teamsMap.set("Kolkata Knight Riders",{"color":"#d9d9d9","state":"West Bengal","Short_name":"KKR"});
+  teamsMap.set("Pune Warriors",{"color":"#bc80bd","state":"Maharashtra","Short_name":"PWI"});
+  teamsMap.set("Rising Pune Supergiants",{"color":"#bc80bd","state":"Maharashtra","Short_name":"RPS"});
+  teamsMap.set("Rising Pune Supergiant",{"color":"#bc80bd","state":"Maharashtra","Short_name":"RPS"});
+  teamsMap.set("Gujarat Lions",{"color":"#ccebc5","state":"Gujarat","Short_name":"GL"});
 
   var chord = d3.chord()
       .padAngle(.05)
@@ -87,8 +87,8 @@
                  "translate(" + (innerRadius+25) + ")"
                 + (d.angle > Math.PI ? "rotate(180)" : "");
           })
-          .text(function(d) { return country[d.index]; })
-          .style("font-size",8);
+          .text(function(d) { return teamsMap.get(country[d.index]).Short_name; })
+          .style("font-size",10);
 
     	g.append("svg:title")
     		.text(function(d,i)	{
