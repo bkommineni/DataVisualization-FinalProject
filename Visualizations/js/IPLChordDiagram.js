@@ -1,7 +1,7 @@
 (function() {
 
-  var width = 700,
-  height = 700,
+  var width = 600,
+  height = 600,
   outerRadius = height/2,
   innerRadius = outerRadius-80;
 

@@ -24,28 +24,39 @@
 
   <div class="row">
     <div class="column" id="Map">
+      <h4>Geographical distribution of teams across India</h4>
       <script type="text/javascript" src="./Visualizations/js/IPLMap.js"></script>
     </div>
     <div class="column">
-      <img src="./Visualizations/images/TeamsLogo.jpeg" width="500" height="350">
+      <!-- <div class="row">
+      <img src="./Visualizations/images/TeamsLogo.jpeg" width="600" height="100">
+      </div>
+      <div class="row"> -->
+      <h4>Compartive view of match wins across teams in a season</h4>
+        <div class="chord_diagram" id="chordD">
+          <div class="dropdown_option" id='vis-container-c' position=absolute left=0></div>
+          <script type="text/javascript" src="./Visualizations/js/IPLChordDiagram.js"></script>
+        </div>
+      <!-- </div> -->
     </div>
   </div>
 
-  <div class="chord_diagram" id="chordD">
+  <!-- <div class="chord_diagram" id="chordD">
     <div class="dropdown_option" id='vis-container-c' position=absolute left=0></div>
     <script type="text/javascript" src="./Visualizations/js/IPLChordDiagram.js"></script>
-  </div>
+  </div> -->
 
   <div class="row">
     <div class="column" id="Bar">
+      <h4>Analysis of matches won by teams in a season</h4>
       <div class="dropdown_option" id='vis-container' position=absolute left=0></div>
       <div id="tooltip" class="hidden">
           <p><span id="value"></span></p>
       </div>
       <script type="text/javascript" src="./Visualizations/js/IPLBarChart.js"></script>
     </div>
-
     <div class="column" id="StackedBar">
+      <h4>Analysis of dismissal types across teams in a season</h4>
       <div id="stackebartooltip" class="hidden">
           <p><span id="value"></span></p>
       </div>
@@ -55,6 +66,7 @@
   </div>
 
   <div class="line_team" id="LineTeam">
+    <h4>Trend line of a team across seasons</h4>
     <div class="dropdown_option" id='vis-container-lt' position=absolute left=0></div>
     <div id="linetooltipteam" class="hidden">
       <p><span id="value"></span></p>
@@ -64,6 +76,7 @@
 
 
   <div class="line_player" id="LinePlayer">
+    <h4>Trend line of a batsman across seasons</h4>
     <div class="dropdown_option" id='vis-container-l' position=absolute left=0></div>
     <div id="linetooltip" class="hidden">
       <p><span id="value"></span></p>

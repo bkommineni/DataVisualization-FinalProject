@@ -1,6 +1,6 @@
 (function(){
 
-  var width = 500, height = 350;
+  var width = 600, height = 600;
 
   var teamsMap = new Map();
   teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamil Nadu","img":"CSK.jpeg"});

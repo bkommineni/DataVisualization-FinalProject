@@ -21,7 +21,6 @@
 
 		d3.json("./Visualizations/teams_by_year.json", function(data) {
 			keys = d3.keys(data);
-			var year = 2012;
 
 			var margin = {top: 50, right: 100, bottom: 50, left: 100};
 			var svg = d3.select("#Bar")
@@ -79,14 +78,14 @@
 				var g = svg.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-				g.append("text")
-				.attr("x", (w)/2)
-				.attr("y", -(margin.top / 4))
-				.attr("text-anchor", "middle")
-				.attr("font-weight","bold")
-				.style("font-size", "16px")
-				.style("text-decoration", "underline")
-				.text("Bar chart for IPL data during :" + year);
+				// g.append("text")
+				// .attr("x", (w)/2)
+				// .attr("y", -(margin.top / 4))
+				// .attr("text-anchor", "middle")
+				// .attr("font-weight","bold")
+				// .style("font-size", "16px")
+				// .style("text-decoration", "underline")
+				// .text("Bar chart for IPL data during :" + year);
 
 				g.append("g")
 				.attr("class", "x-axis")
@@ -145,7 +144,7 @@
           .text("No of wins");
 
 				}
-				initialGraph(year);
+
 
 				var dropdown = d3.select("#vis-container")
 				.insert("select", "svg")
@@ -171,6 +170,8 @@
 				.text(function (d) {
 					return d;
 				});
+
+        initialGraph(years[0]);
 			});
 		});
 })();

@@ -4,6 +4,14 @@ div.container {
     border: 1px solid gray;
 }
 
+header{
+    padding: 1em;
+    color: white;
+    background-color: lightgray;
+    clear: left;
+    text-align: center;
+}
+
 header, footer {
     padding: 1em;
     color: white;
@@ -42,6 +50,17 @@ nav ul a {
   color: teal;
   font-size: 50px;
   padding-bottom: 40px;
+}
+
+.column h4 {
+  position: relative;
+  /* top: 18px;
+  left: 10px; */
+  color: black;
+  font-size: 20px;
+  /* padding-bottom: 40px; */
+  text-align: center;
+  text-decoration: underline;
 }
 /* body {
     background-image: url("./images/IPLLogo.jpg");
@@ -160,6 +179,14 @@ nav ul a {
   position: relative;
 }
 
+.line_team h4{
+  position: relative;
+  color: black;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: underline;
+}
+
 .line_player {
   width: 70%;
   display: block;
@@ -167,8 +194,16 @@ nav ul a {
   position: relative;
 }
 
+.line_player h4{
+  position: relative;
+  color: black;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: underline;
+}
+
 .chord_diagram {
-  width: 60%;
+  /* width: 20%; */
   display: block;
   margin: auto;
   position: relative;

@@ -126,14 +126,14 @@
   var g = svg.append("g")
              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  g.append("text")
-    .attr("x", (w)/2)
-    .attr("y", -(margin.top / 4))
-    .attr("text-anchor", "middle")
-    .attr("font-weight","bold")
-    .style("font-size", "16px")
-    .style("text-decoration", "underline")
-    .text("Stacked Bar chart for IPL data during "+ year);
+  // g.append("text")
+  //   .attr("x", (w)/2)
+  //   .attr("y", -(margin.top / 4))
+  //   .attr("text-anchor", "middle")
+  //   .attr("font-weight","bold")
+  //   .style("font-size", "16px")
+  //   .style("text-decoration", "underline")
+  //   .text("Stacked Bar chart for IPL data during "+ year);
 
   //console.log("Series=", series);
   g.append("g")
