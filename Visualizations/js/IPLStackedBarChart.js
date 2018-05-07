@@ -57,6 +57,7 @@
                         if(matches.includes(+d.match_id ))
                           return d.bowling_team;
                         })
+                      .sortKeys(d3.ascending)
                       .key(function(d) {
                         if(d.dismissal_kind != "")
                         {
@@ -73,6 +74,7 @@
                       });
                       })
                       .entries(data);
+
   var unique_values = [];
 
   dismissal_types.forEach(function(d) {
