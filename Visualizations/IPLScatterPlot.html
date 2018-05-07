@@ -43,7 +43,6 @@
 	var w = 1000;
 	var h = 500;
 	var seasonMatches = new Map()
-	var totalRunsBalls = []
 	var xScale, yScale;
 
 	d3.json("player_details.json", function(data) {
@@ -61,6 +60,7 @@
 
 			var ballsRunsMap = new Map()
 			var initialGraph = function(batsman){
+				var totalRunsBalls = []
 
 				d3.select("g").remove();
 
@@ -148,7 +148,9 @@
 				.append("circle")
 				.attr("cy", function(d) {
 					return yScale(d.total_runs); })
-				.attr("cx", function(d) { return xScale(d.balls_faced); })
+				.attr("cx", function(d) {
+					console.log("Total runs balls=", totalRunsBalls);
+					return xScale(d.balls_faced); })
 				.attr("r", function(d, i) { return 4; })
 				.style("fill", "coral")
 				.on("mouseover", function(d){
