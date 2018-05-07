@@ -123,19 +123,19 @@
 						// g.selectAll("#tooltip_path").remove();
 				});
 
+        svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+        .attr("font-weight","bold")
+        .text("Number of runs");
+
+        svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
+        .attr("font-weight","bold")
+        .text("Balls Faced");
+
 			}//Function initialGraph ends
-
-			svg.append("text")
-			.attr("text-anchor", "middle")
-			.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
-			.attr("font-weight","bold")
-			.text("Number of runs");
-
-			svg.append("text")
-			.attr("text-anchor", "middle")
-			.attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
-			.attr("font-weight","bold")
-			.text("Balls Faced");
 
 			var dropdown = d3.select("#vis-container-sp")
 			.insert("select", "svg")
