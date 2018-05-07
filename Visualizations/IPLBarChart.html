@@ -78,6 +78,7 @@
 				return d.season
 			})
 			.entries(matches_data);
+
 			var initialGraph = function(year){
 
 				d3.select("g").remove();
@@ -147,7 +148,6 @@
 				.attr("y", 6)
 				.attr("dy", "0.71em")
 				.attr("text-anchor", "end");
-
 
 				g.selectAll("rect")
 				.data(nested_data)

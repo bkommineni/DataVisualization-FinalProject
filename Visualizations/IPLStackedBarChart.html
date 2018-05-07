@@ -2,12 +2,42 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Bar Chart</title>
+		<title>Stacked Bar Chart</title>
 		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 		<style type="text/css">
+		#tooltip {
+			position: absolute;
+			width: 200px;
+			height: auto;
+			padding: 10px;
+			background-color: white;
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+			-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+			box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+			pointer-events: none;
+			opacity:0.8;
+		}
+
+		#tooltip.hidden {
+			display: none;
+		}
+
+		#tooltip p {
+			margin: 0;
+			font-family: sans-serif;
+			font-size: 12px;
+			line-height: 20px;
+		}
+
 		</style>
 	</head>
 	<body>
+		<div id="tooltip" class="hidden">
+				<p><span id="value"></span></p>
+		</div>
 		<div id='vis-container'></div>
 		<script type="text/javascript">
 			var w = 1000;
@@ -109,7 +139,7 @@
                     .order(d3.stackOrderDescending);
 
       var series = stack(neat_data);
-
+			console.log("Neat data=", neat_data, "Stack=", series);
 			var teams = [];
 			nested_data.forEach(function(d) {
 				teams.push(d.key);
@@ -144,8 +174,9 @@
 				.attr("font-weight","bold")
 				.style("font-size", "16px")
 				.style("text-decoration", "underline")
-				.text("Stacked Bar chart for IPL data during "+year);
+				.text("Stacked Bar chart for IPL data during "+ year);
 
+			console.log("Series=", series);
       g.append("g")
 				.selectAll("g")
 	      .data(series)
@@ -168,7 +199,44 @@
           .attr("height", function(d) {
             return yScale(d[0]) - yScale(d[1]);
           })
-          .attr("width", xScale.bandwidth());
+          .attr("width", xScale.bandwidth())
+					.on("mouseover", function(d, i) {
+
+						var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
+						var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
+
+						d3.select("#tooltip")
+						.style("left", xPosition + "px")
+						.style("top", yPosition + "px")
+						.select("#value")
+						.text(function(){
+							console.log("data in text=", d);
+							var tooltipText = "Year: " + year+ " Team: " + d.data.Team
+							+ " Total dismissals for the team: ";
+							neat_data.forEach(function(i){
+								if (i.Team == d.data.Team) {
+									var val = 0;
+									var maxval = 0;
+									dismissal_types.forEach(function(g) {
+										val = val + i[g];
+										if(i[g] > maxval){
+											maxval = i[g];
+											type = g;
+											console.log("type=", g);
+										}
+									});
+								tooltipText = tooltipText.concat(+val)
+								tooltipText = tooltipText.concat(" Maximum number of dismissals " + " Type: "
+								+ type +" Value: "+ maxval)
+							}})
+							return tooltipText
+						})
+						d3.select("#tooltip").classed("hidden", false);
+					})
+					.on("mouseout", function() {
+						//Hide the tooltip
+						d3.select("#tooltip").classed("hidden", true);
+					})
 
 					g.append("g")
 					 .attr("class", "x-axis")
@@ -189,8 +257,6 @@
 						.attr("y", 6)
 						.attr("dy", "0.71em")
 						.attr("text-anchor", "end");
-
-
 
 						var legend = g.append("g")
 										      .attr("font-family", "sans-serif")
@@ -224,7 +290,7 @@
 							  years.push(key);
 							}
 							years = years.sort();
-							console.log(years);
+							// console.log(years);
 
 							svg.append("text")
 								.attr("text-anchor", "middle")
