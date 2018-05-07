@@ -67,14 +67,14 @@
 				var g = svg.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-				g.append("text")
-				.attr("x", (w)/2)
-				.attr("y", -(margin.top / 4))
-				.attr("text-anchor", "middle")
-				.attr("font-weight","bold")
-				.style("font-size", "16px")
-				.style("text-decoration", "underline")
-				.text("IPL Data - Scatter Plot for Batsman: " + batsman);
+				// g.append("text")
+				// .attr("x", (w)/2)
+				// .attr("y", -(margin.top / 4))
+				// .attr("text-anchor", "middle")
+				// .attr("font-weight","bold")
+				// .style("font-size", "16px")
+				// .style("text-decoration", "underline")
+				// .text("IPL Data - Scatter Plot for Batsman: " + batsman);
 
 				//line function
 				var line = d3.line()
