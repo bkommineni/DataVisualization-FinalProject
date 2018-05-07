@@ -59,8 +59,7 @@
 			 h = svg.attr("height") - margin.top - margin.bottom;
 
         matches_data.forEach(function(d){
-            if(!seasonMatches.get(+d.season))
-            {
+            if(!seasonMatches.get(+d.season)){
               var ids = [];
               ids.push(+d.id);
               seasonMatches.set(+d.season,ids);
@@ -139,7 +138,7 @@
                     .order(d3.stackOrderDescending);
 
       var series = stack(neat_data);
-			console.log("Neat data=", neat_data, "Stack=", series);
+			// console.log("Neat data=", neat_data, "Stack=", series);
 			var teams = [];
 			nested_data.forEach(function(d) {
 				teams.push(d.key);
@@ -176,7 +175,6 @@
 				.style("text-decoration", "underline")
 				.text("Stacked Bar chart for IPL data during "+ year);
 
-			console.log("Series=", series);
       g.append("g")
 				.selectAll("g")
 	      .data(series)
@@ -210,7 +208,6 @@
 						.style("top", yPosition + "px")
 						.select("#value")
 						.text(function(){
-							console.log("data in text=", d);
 							var tooltipText = "Year: " + year+ " Team: " + d.data.Team
 							+ " Total dismissals for the team: ";
 							neat_data.forEach(function(i){
@@ -222,7 +219,6 @@
 										if(i[g] > maxval){
 											maxval = i[g];
 											type = g;
-											console.log("type=", g);
 										}
 									});
 								tooltipText = tooltipText.concat(+val)
@@ -234,7 +230,6 @@
 						d3.select("#tooltip").classed("hidden", false);
 					})
 					.on("mouseout", function() {
-						//Hide the tooltip
 						d3.select("#tooltip").classed("hidden", true);
 					})
 
@@ -290,7 +285,6 @@
 							  years.push(key);
 							}
 							years = years.sort();
-							// console.log(years);
 
 							svg.append("text")
 								.attr("text-anchor", "middle")
