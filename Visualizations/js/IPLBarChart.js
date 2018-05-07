@@ -58,9 +58,10 @@
 						if(g.winner != "")
 						return 1;
 					});
-				}).entries(teams_year_data);
+				})
+        .sortKeys(d3.ascending)
+        .entries(teams_year_data);
 				nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;})
-				//console.log("Nested Data:", nested_data);
 				nested_data.forEach(function(d) {
 					d.Team = d.key;
 					d.Wins = +d.value;
