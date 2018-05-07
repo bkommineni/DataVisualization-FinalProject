@@ -74,14 +74,23 @@
     <script type="text/javascript" src="./Visualizations/js/IPLLineChartTeam.js"></script>
   </div>
 
-
-  <div class="line_player" id="LinePlayer">
+  <div class="row">
+  <div class="column" id="LinePlayer">
     <h4>Trend line of a batsman across seasons</h4>
     <div class="dropdown_option" id='vis-container-l' position=absolute left=0></div>
     <div id="linetooltip" class="hidden">
       <p><span id="value"></span></p>
     </div>
     <script type="text/javascript" src="./Visualizations/js/IPLLineChart.js"></script>
+  </div>
+  <div class="column" id="ScatterPlotPlayer">
+    <h4>Distribution of runs scored by a player across all seasons</h4>
+    <div class="dropdown_option" id='vis-container-sp' position=absolute left=0></div>
+    <div id="scattertooltip" class="hidden">
+      <p><span id="value"></span></p>
+    </div>
+    <script type="text/javascript" src="./Visualizations/js/IPLScatterPlot.js"></script>
+  </div>
   </div>
 
 

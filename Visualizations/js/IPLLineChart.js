@@ -1,5 +1,5 @@
 (function(){
-  var w = 800;
+  var w = 500;
   var h = 350;
   var seasonMatches = new Map()
   var batsman = "DA Warner";

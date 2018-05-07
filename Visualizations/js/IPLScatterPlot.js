@@ -1,56 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Scatter Plot</title>
-	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-	<style type="text/css">
-	#tooltip {
-		position: absolute;
-		width: 150px;
-		height: auto;
-		padding: 10px;
-		background-color: white;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
-		-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-		-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-		box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-		pointer-events: none;
-		opacity:0.8;
-	}
-
-	#tooltip.hidden {
-		display: none;
-	}
-
-	#tooltip p {
-		margin: 0;
-		font-family: sans-serif;
-		font-size: 12px;
-		line-height: 20px;
-	}
-
-	</style>
-</head>
-<body>
-	<div id="tooltip" class="hidden">
-		<p><span id="value"></span></p>
-	</div>
-	<div id='vis-container'></div>
-	<script type="text/javascript">
-	var w = 1000;
-	var h = 500;
+(function(){
+  var w = 500;
+	var h = 350;
 	var seasonMatches = new Map()
 	var totalRunsBalls = []
 	var xScale, yScale;
 
-	d3.json("player_details.json", function(data) {
+	d3.json("./Visualizations/player_details.json", function(data) {
 			keys = d3.keys(data);
 			//console.log("data=", data);
 			var margin = {top: 50, right: 100, bottom: 50, left: 100};
-			var svg = d3.select("body")
+			var svg = d3.select("#ScatterPlotPlayer")
 			.append("svg")
 			.attr("width", w)
 			.attr("height", h);
@@ -62,8 +21,7 @@
 			var ballsRunsMap = new Map()
 			var initialGraph = function(batsman){
 
-				d3.select("g").remove();
-
+				svg.selectAll("*").remove();
 				// //console.log("Data=", data);
 				// console.log();
 				// matches data
@@ -152,17 +110,17 @@
 				.attr("r", function(d, i) { return 4; })
 				.style("fill", "coral")
 				.on("mouseover", function(d){
-					d3.select("#tooltip")
+					d3.select("#scattertooltip")
 					.style("left", xScale(d.balls_faced) + "px")
 					.style("top",  yScale(d.total_runs)  + "px")
 					.select("#value")
 					.html("Player: " + batsman + "<br/>" + "Balls Faced: " + d.balls_faced + "<br/>" + "Runs scored: " + d.total_runs + "<br/>" + "Year: " + d.Year + "<br/>");
-					d3.select("#tooltip").classed("hidden", false);
+					d3.select("#scattertooltip").classed("hidden", false);
 
 				})
 				.on("mouseout", function(d) {
-						d3.select("#tooltip").classed("hidden", true);
-						g.selectAll("#tooltip_path").remove();
+						d3.select("#scattertooltip").classed("hidden", true);
+						// g.selectAll("#tooltip_path").remove();
 				});
 
 			}//Function initialGraph ends
@@ -179,7 +137,7 @@
 			.attr("font-weight","bold")
 			.text("Balls Faced");
 
-			var dropdown = d3.select("#vis-container")
+			var dropdown = d3.select("#vis-container-sp")
 			.insert("select", "svg")
 			.on("change", function(){
 
@@ -205,6 +163,5 @@
 				});
 			initialGraph(unique_players[0]);
 		});
-	</script>
-</body>
-</html>
+
+})()
