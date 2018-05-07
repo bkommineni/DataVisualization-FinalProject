@@ -2,7 +2,6 @@
   var w = 500;
 	var h = 350;
 	var seasonMatches = new Map()
-	var totalRunsBalls = []
 	var xScale, yScale;
 
 	d3.json("./Visualizations/player_details.json", function(data) {
@@ -20,6 +19,7 @@
 
 			var ballsRunsMap = new Map()
 			var initialGraph = function(batsman){
+        var totalRunsBalls = []
 
 				svg.selectAll("*").remove();
 				// //console.log("Data=", data);
