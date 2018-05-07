@@ -18,7 +18,8 @@ match_id = 0
 for line in deliveries:
     tokens = line.split(",")
     if tokens[17] != "total_runs":
-        player_list.append([tokens[0], tokens[6], 1, int(tokens[17])])
+        if tokens[16] == "0":
+            player_list.append([tokens[0], tokens[6], 1, int(tokens[15])])
 
 for point in player_list:
     match_id = point[0]
@@ -36,7 +37,7 @@ for point in player_list:
                     year = games[1]
     row = [match_id, year, point[1], balls_faced, runs_scored]
     if row not in final_player_json:
-        # print(row)
+        print(row)
         final_player_json.append(row)
         temp.append([point[0], point[1]])
 
