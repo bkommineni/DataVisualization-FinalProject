@@ -113,10 +113,10 @@
           teams.forEach(function(d){
             if(teamsMap.get(d))
             {
-              //console.log("Map state: ",teamsMap.get(d).state ,"json state: ",s.properties.st_nm);
+              ////console.log("Map state: ",teamsMap.get(d).state ,"json state: ",s.properties.st_nm);
               if(teamsMap.get(d).state == s.properties.st_nm)
               {
-                //console.log("state: ",teamsMap.get(d).state);
+                ////console.log("state: ",teamsMap.get(d).state);
                 c = teamsMap.get(d).color;
               }
             }
@@ -124,35 +124,28 @@
           return c; })
         .style("opacity", ".8")
         .on("mouseover", function(s) {
-          //console.log("mouseover x: ",d3.mouse(this)[0]);
           var x = d3.mouse(this)[0];
           var y = d3.mouse(this)[1];
           var xPosition = parseFloat(x);
           var yPosition = parseFloat(y);
-          //console.log("top","x: ",xPosition,"y: ",yPosition);
+
           teams.forEach(function(d){
             if(teamsMap.get(d))
             {
               if(teamsMap.get(d).state == s.properties.st_nm)
               {
-                //console.log("x: ",xPosition,"y: ",yPosition);
                 var teamlogo = svg.append("image")
-                              .attr("width", 50)
-                              .attr("height", 50)
-                              .attr("x", xPosition)
+                              .attr("width", 75)
+                              .attr("height", 75)
+                              .attr("x", xPosition+5)
                               .attr("y", yPosition-10);
                 teamlogo.attr("xlink:href", "");
                 teamlogo.attr("xlink:href", "./Visualizations/images/"+teamsMap.get(d).img);
-                //d3.select("image").classed("hidden", true);
               }
             }
           });
         })
         .on("mouseout", function() {
-          //Hide the tooltip
-          //d3.select("image").classed("hidden", false);
-          console.log("mouseout");
-          //d3.select("#t"+ d3.mouse(this)[0] + "-" + d3.mouse(this)[1]).remove();
           d3.selectAll("image").remove();
         });
 

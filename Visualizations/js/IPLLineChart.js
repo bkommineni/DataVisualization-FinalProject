@@ -34,7 +34,7 @@
       });
 
       var allYearPlayerMap = new Map()
-      // var matches = seasonMatches.get(selected_year);
+
       var initialGraph = function(batsman){
 
         //d3.select("g").remove();
@@ -141,7 +141,8 @@
           .style("left", xScale(d[0]) + "px")
           .style("top", yScale(d[1]) + "px")
           .select("#value")
-          .text(d[1] + " runs in " + d[0] + " by "+ batsman)
+          .html("Player: "+ batsman + "<br/>" + "Year: " + d[0]+"<br/>"+ "No of runs: " + d[1])
+          .style("font-size",10+"px");
           //Show the tooltip
           d3.select("#linetooltip").classed("hidden", false);
 
@@ -169,10 +170,6 @@
         .text("Total number of runs");
 
       }//Function initialGraph ends
-
-      initialGraph(batsman)
-
-
 
       // svg.append("text")
       // .attr("text-anchor", "middle")
@@ -207,6 +204,8 @@
       .text(function (d) {
           return d[0].toUpperCase() + d.slice(1,d.length); // capitalize 1st letter
         });
+
+      initialGraph(unique_players[0]);
     });
   });
 

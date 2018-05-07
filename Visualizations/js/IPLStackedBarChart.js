@@ -9,13 +9,13 @@
 
   d3.csv("./Visualizations/deliveries.csv", function(data) {
    var margin = {top: 50, right: 100, bottom: 50, left: 100};
-   var svg1 = d3.select("#StackedBar")
+   var svg = d3.select("#StackedBar")
               .append("svg")
               .attr("width", w)
               .attr("height", h);
 
-   w = svg1.attr("width") - margin.left - margin.right;
-   h = svg1.attr("height") - margin.top - margin.bottom;
+   w = svg.attr("width") - margin.left - margin.right;
+   h = svg.attr("height") - margin.top - margin.bottom;
 
     matches_data.forEach(function(d){
         if(!seasonMatches.get(+d.season))
@@ -32,9 +32,8 @@
     });
 
   var initialGraph = function(year){
-  console.log("initialGraph");
-  //d3.select("g_s").remove();
-  svg1.selectAll("*").remove();
+
+  svg.selectAll("*").remove();
 
   var matches = seasonMatches.get(+year);
 
@@ -99,7 +98,7 @@
                 .order(d3.stackOrderDescending);
 
   var series = stack(neat_data);
-
+  //console.log("Neat data=", neat_data, "Stack=", series);
   var teams = [];
   nested_data.forEach(function(d) {
     teams.push(d.key);
@@ -124,19 +123,20 @@
 
   var colors = d3.scaleOrdinal(d3.schemeCategory10);
 
-  var g_s = svg1.append("g")
+  var g = svg.append("g")
              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  g_s.append("text")
+  g.append("text")
     .attr("x", (w)/2)
     .attr("y", -(margin.top / 4))
     .attr("text-anchor", "middle")
     .attr("font-weight","bold")
     .style("font-size", "16px")
     .style("text-decoration", "underline")
-    .text("Stacked Bar chart for IPL data during "+year);
+    .text("Stacked Bar chart for IPL data during "+ year);
 
-  g_s.append("g")
+  //console.log("Series=", series);
+  g.append("g")
     .selectAll("g")
     .data(series)
     .enter()
@@ -158,9 +158,42 @@
       .attr("height", function(d) {
         return yScale(d[0]) - yScale(d[1]);
       })
-      .attr("width", xScale.bandwidth());
+      .attr("width", xScale.bandwidth())
+      .on("mouseover", function(d, i) {
 
-      g_s.append("g")
+        var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
+        var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
+
+          var tooltipText = "Year: " + year +"<br/>"+ "Team: " + d.data.Team+"<br/>"
+          + " Total dismissals : ";
+          neat_data.forEach(function(i){
+            if (i.Team == d.data.Team) {
+              var val = 0;
+              var maxval = 0;
+              dismissal_types.forEach(function(g) {
+                val = val + i[g];
+                if(i[g] > maxval){
+                  maxval = i[g];
+                  type = g;
+                }
+              });
+            tooltipText = tooltipText.concat(+val)+"<br/>";
+            tooltipText = tooltipText.concat(" Major dismissal type: "
+            + type + "<br/>" + type + " dismissals: "+ maxval+"<br/>");
+          }})
+
+        d3.select("#stackebartooltip")
+        .html(tooltipText)
+        .style("left", xPosition + "px")
+        .style("top", yPosition + "px")
+        .style("font-size",10+"px");
+        d3.select("#stackebartooltip").classed("hidden", false);
+      })
+      .on("mouseout", function() {
+        d3.select("#stackebartooltip").classed("hidden", true);
+      })
+
+      g.append("g")
        .attr("class", "x-axis")
        .attr("transform", "translate(0," + h + ")")
        .call(d3.axisBottom(xScale).tickSize(0))
@@ -171,7 +204,7 @@
        // .style("font-size","6px")
        // .style("text-anchor", "middle");
 
-       g_s.append("g")
+       g.append("g")
         .attr("class", "y-axis")
         .call(d3.axisLeft(yScale).ticks(10))
         .append("text")
@@ -180,9 +213,7 @@
         .attr("dy", "0.71em")
         .attr("text-anchor", "end");
 
-
-
-        var legend = g_s.append("g")
+        var legend = g.append("g")
                       .attr("font-family", "sans-serif")
                       .attr("font-size", 10)
                       .attr("text-anchor", "end")
@@ -193,23 +224,18 @@
 
         legend.append("rect")
             .attr("x", w + 19)
-            .attr("width", 5)
-            .attr("height", 5)
+            .attr("width", 19)
+            .attr("height", 19)
             .style("fill", function(d, i) {
               return colors(i);
             });
 
         legend.append("text")
             .attr("x", w + 38)
-            .attr("y", 5)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
             .text(function(d) { return d; })
             .style("text-anchor", "start");
-
-        svg1.append("text")
-          .attr("text-anchor", "middle")
-          .attr("transform", "translate("+ (margin.left/4) +","+(3*h/4)+")rotate(-90)")
-          .attr("font-weight","bold")
-          .text("No of dismissals");
           }
           initialGraph(selected_year);
 
@@ -219,10 +245,16 @@
             years.push(key);
           }
           years = years.sort();
-          console.log(years);
+          // //console.log(years);
+
+          svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+            .attr("font-weight","bold")
+            .text("No of dismissals");
 
           var dropdown = d3.select("#vis-container-s")
-          .insert("select", "svg1")
+          .insert("select", "svg")
           .on("change", function(){
             var selected_year = d3.select(this).property('value')
             initialGraph(selected_year)

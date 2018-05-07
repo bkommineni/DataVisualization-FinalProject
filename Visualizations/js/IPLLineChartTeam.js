@@ -25,17 +25,14 @@
       var teams = []
       team_data.forEach(function(d){
         if(d.key != ""){
-          console.log(d.key);
+          //console.log(d.key);
           teams.push(d.key)
         }
       })
       sorted_teams =  teams.sort();
 
-      var selected_team = sorted_teams[0];
-
-      //Function for drawing the graph
       var drawGraph = function(selected_team){
-        //d3.select("g").remove();
+
         svg.selectAll("*").remove();
 
         let single_team_data;
@@ -58,7 +55,7 @@
         }).entries(single_team_data);
 
         nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;})
-        // console.log("Nested Data:", nested_data);
+
         nested_data.forEach(function(d) {
           d.Year = d.key;
           d.Wins = d.value;
@@ -136,11 +133,12 @@
           .style("left", xScale(d.Year) + "px")
           .style("top", yScale(d.Wins) + "px")
           .select("#value")
-          .text(d.Wins + " wins in " + d.Year + " by "+ selected_team)
-          //Show the tooltip
+          .html("Team: "+ selected_team + "<br/>" + "Matches Won: " + d.Wins + "<br/>" + "Year: " + d.Year + "<br/>")
+          .style("font-size",10+"px");
+
           d3.select("#linetooltipteam").classed("hidden", false);
-          console.log("h=", yScale(d.Wins));
-          //tooltip path
+
+
           g.selectAll("#tooltip_path")
           .data([d]).enter().append("line")
           .attr("id", "tooltip_path")
@@ -164,14 +162,11 @@
         .attr("font-weight","bold")
         .text("No of wins");
       }// drawGraph ends
-      drawGraph(selected_team);
 
       var dropdown = d3.select("#vis-container-lt")
       .insert("select", "svg")
       .on("change", function(){
         var selected_team = d3.select(this).property('value')
-        console.log("Selected team=", selected_team)
-        // Run update function with the selected batsman
         drawGraph(selected_team)
       });
 
@@ -182,6 +177,8 @@
       .text(function (d) {
         return d;
       });
+
+      drawGraph(sorted_teams[0]);
 
       // svg.append("text")
       // .attr("text-anchor", "middle")

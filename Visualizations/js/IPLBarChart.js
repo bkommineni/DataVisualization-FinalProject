@@ -61,7 +61,7 @@
 					});
 				}).entries(teams_year_data);
 				nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;})
-				console.log("Nested Data:", nested_data);
+				//console.log("Nested Data:", nested_data);
 				nested_data.forEach(function(d) {
 					d.Team = d.key;
 					d.Wins = +d.value;
@@ -114,7 +114,7 @@
 				.enter()
 				.append("rect")
 				.style("fill", function(d){
-					console.log(d.Team);
+					//console.log(d.Team);
 					return teamsMap.get(d.Team).color;
 				})
 					.attr("width", xScale.bandwidth())
@@ -123,21 +123,18 @@
 					.attr("height", function(d) { return h - yScale(d.Wins); })
 					.on("mouseover", function(d) {
 
-						//Get this bar's x/y values, then augment for the tooltip
 						var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
 						var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
-						//Update the tooltip position and value
+
 						d3.select("#tooltip")
 						.style("left", xPosition + "px")
 						.style("top", yPosition + "px")
 						.select("#value")
-						.text(d.key + " won " + d.Wins + " matches in " + year);
-						console.log("In mouse over"+ xPosition);
-						//Show the tooltip
+						.html("Team: " + d.key + "<br/>" + "Matches won: " + d.Wins + "<br/>" +"Year: " + year + "<br/>")
+            .style("font-size",10+"px");
 						d3.select("#tooltip").classed("hidden", false);
 					})
 					.on("mouseout", function() {
-						//Hide the tooltip
 						d3.select("#tooltip").classed("hidden", true);
 					})
 
@@ -154,13 +151,13 @@
 				.insert("select", "svg")
 				.on("change", function(){
 					var selected_year = d3.select(this).property('value')
-					console.log("Selected year=", selected_year)
+					//console.log("Selected year=", selected_year)
 					// Run update function with the selected fruit
 					initialGraph(selected_year)
 
 				});
 
-				console.log(d3.keys(year_data));
+				//console.log(d3.keys(year_data));
 				var years = [];
 				year_data.forEach(function(d){
 					years.push(+d.key);

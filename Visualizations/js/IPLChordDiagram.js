@@ -1,9 +1,9 @@
 (function() {
 
   var width = 700,
-      height = 700,
-      outerRadius = height/2,
-      innerRadius = outerRadius-80;
+  height = 700,
+  outerRadius = height/2,
+  innerRadius = outerRadius-80;
 
   var teamsMap = new Map();
 	teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamilnadu"});
@@ -47,9 +47,6 @@
   d3.json("./Visualizations/matrix_wins.json", function(data) {
     d3.json("./Visualizations/total_stats.json", function(statsdata){
 
-
-
-    var year = 2008;
     var svg = d3.select("#chordD").append("svg:svg")
             .attr("width", width)
             .attr("height", height)
@@ -121,7 +118,7 @@
               country[d.target.index]+" : "+d.target.value;
             });
     }
-    initialGraph(year);
+
 
     var dropdown = d3.select("#vis-container-c")
     .insert("select", "svg")
@@ -145,6 +142,8 @@
     .text(function (d) {
       return d;
     });
+
+    initialGraph(years[0]);
 
     function fade(opacity) {
       return function(g, i) {
