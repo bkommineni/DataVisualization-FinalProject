@@ -1,6 +1,6 @@
 (function(){
   var w = 500;
-  var h = 250;
+  var h = 350;
   var seasonMatches = new Map();
   var dismissal_types = [];
   var selected_year = 2008;
@@ -127,14 +127,14 @@
   var g_s = svg1.append("g")
              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  // g_s.append("text")
-  //   .attr("x", (w)/2)
-  //   .attr("y", -(margin.top / 4))
-  //   .attr("text-anchor", "middle")
-  //   .attr("font-weight","bold")
-  //   .style("font-size", "16px")
-  //   .style("text-decoration", "underline")
-  //   .text("Stacked Bar chart for IPL data during "+year);
+  g_s.append("text")
+    .attr("x", (w)/2)
+    .attr("y", -(margin.top / 4))
+    .attr("text-anchor", "middle")
+    .attr("font-weight","bold")
+    .style("font-size", "16px")
+    .style("text-decoration", "underline")
+    .text("Stacked Bar chart for IPL data during "+year);
 
   g_s.append("g")
     .selectAll("g")
@@ -204,6 +204,12 @@
             .attr("y", 5)
             .text(function(d) { return d; })
             .style("text-anchor", "start");
+
+        svg1.append("text")
+          .attr("text-anchor", "middle")
+          .attr("transform", "translate("+ (margin.left/4) +","+(3*h/4)+")rotate(-90)")
+          .attr("font-weight","bold")
+          .text("No of dismissals");
           }
           initialGraph(selected_year);
 
@@ -214,12 +220,6 @@
           }
           years = years.sort();
           console.log(years);
-
-          svg1.append("text")
-            .attr("text-anchor", "middle")
-            .attr("transform", "translate("+ (margin.left/4) +","+(3*h/4)+")rotate(-90)")
-            .attr("font-weight","bold")
-            .text("No of dismissals");
 
           var dropdown = d3.select("#vis-container-s")
           .insert("select", "svg1")

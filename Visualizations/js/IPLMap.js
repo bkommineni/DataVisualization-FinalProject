@@ -1,9 +1,9 @@
 (function(){
 
-  var width = 500, height = 250;
+  var width = 500, height = 350;
 
   var teamsMap = new Map();
-  teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamilnadu","img":"CSK.jpeg"});
+  teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamil Nadu","img":"CSK.jpeg"});
   teamsMap.set("Kochi Tuskers Kerala",{"color":"#ffffb3","state":"Kerala","img":"KOCHI.png"});
   teamsMap.set("Royal Challengers Bangalore",{"color":"#bebada","state":"Karnataka","img":"RCB.jpg"});
   teamsMap.set("Kings XI Punjab",{"color":"#fb8072","state":"Punjab","img":"PUN.png"});
@@ -113,8 +113,10 @@
           teams.forEach(function(d){
             if(teamsMap.get(d))
             {
+              //console.log("Map state: ",teamsMap.get(d).state ,"json state: ",s.properties.st_nm);
               if(teamsMap.get(d).state == s.properties.st_nm)
               {
+                //console.log("state: ",teamsMap.get(d).state);
                 c = teamsMap.get(d).color;
               }
             }

@@ -1,6 +1,6 @@
 (function(){
   var w = 800;
-  var h = 250;
+  var h = 350;
   var seasonMatches = new Map()
   var batsman = "DA Warner";
   var totalRuns = []
@@ -162,21 +162,23 @@
             g.selectAll("#tooltip_path").remove();
         });
 
+        svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+        .attr("font-weight","bold")
+        .text("Total number of runs");
+
       }//Function initialGraph ends
 
       initialGraph(batsman)
 
-      svg.append("text")
-      .attr("text-anchor", "middle")
-      .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
-      .attr("font-weight","bold")
-      .text("Total number of runs");
 
-      svg.append("text")
-      .attr("text-anchor", "middle")
-      .attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
-      .attr("font-weight","bold")
-      .text("Year");
+
+      // svg.append("text")
+      // .attr("text-anchor", "middle")
+      // .attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
+      // .attr("font-weight","bold")
+      // .text("Year");
 
       var dropdown = d3.select("#vis-container-l")
       .insert("select", "svg")

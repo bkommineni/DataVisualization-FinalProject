@@ -1,0 +1,184 @@
+<style>
+div.container {
+    width: 100%;
+    border: 1px solid gray;
+}
+
+header, footer {
+    padding: 1em;
+    color: white;
+    background-color: lightgray;
+    clear: left;
+    text-align: center;
+}
+
+/* nav {
+    float: left;
+    max-width: 160px;
+    margin: 0;
+    padding: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul a {
+    text-decoration: none;
+} */
+
+.header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+  background: #555;
+}
+
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+  color: teal;
+  font-size: 50px;
+  padding-bottom: 40px;
+}
+/* body {
+    background-image: url("./images/IPLLogo.jpg");
+} */
+#tooltip {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  opacity:0.8;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+#linetooltip {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  opacity:0.8;
+}
+
+#linetooltip.hidden {
+  display: none;
+}
+
+#linetooltip p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+#linetooltipteam {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  opacity:0.8;
+}
+
+#linetooltipteam.hidden {
+  display: none;
+}
+
+#linetooltipteam p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+}
+.line_team {
+  width: 70%;
+  display: block;
+  margin: auto;
+  position: relative;
+}
+
+.line_player {
+  width: 70%;
+  display: block;
+  margin: auto;
+  position: relative;
+}
+
+.chord_diagram {
+  width: 60%;
+  display: block;
+  margin: auto;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    /* display: inline-block; */
+    position: relative;
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.empty-container {
+    width: 100px
+    height: 100px
+    position: fixed;
+    padding: 10;
+    margin: 10;
+    background-color: #ff00ff;
+}
+img {
+    opacity: 0.5;
+}
+
+img:hover {
+    opacity: 1.0;
+}
+
+.chord path {
+  fill-opacity: .67;
+  stroke: #000;
+  stroke-width: .5px;
+}
+</style>

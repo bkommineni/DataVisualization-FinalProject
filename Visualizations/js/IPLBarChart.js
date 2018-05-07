@@ -1,6 +1,6 @@
 (function(){
   var w = 500;
-	var h = 250;
+	var h = 350;
 	var teamsMap = new Map();
 	teamsMap.set("Chennai Super Kings",{"color":"#8dd3c7","state":"Tamilnadu"});
 	teamsMap.set("Kochi Tuskers Kerala",{"color":"#ffffb3","state":"Kerala"});
@@ -141,14 +141,14 @@
 						d3.select("#tooltip").classed("hidden", true);
 					})
 
+          svg.append("text")
+          .attr("text-anchor", "middle")
+          .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+          .attr("font-weight","bold")
+          .text("No of wins");
+
 				}
 				initialGraph(year);
-
-				svg.append("text")
-				.attr("text-anchor", "middle")
-				.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
-				.attr("font-weight","bold")
-				.text("No of wins");
 
 				var dropdown = d3.select("#vis-container")
 				.insert("select", "svg")

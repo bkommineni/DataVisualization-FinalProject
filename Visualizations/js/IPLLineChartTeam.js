@@ -1,6 +1,6 @@
 (function(){
   var w = 800;
-  var h = 250;
+  var h = 350;
 
   d3.csv("./Visualizations/matches.csv", function(matches_data) {
 
@@ -157,6 +157,12 @@
           d3.select("#linetooltipteam").classed("hidden", true);
           g.selectAll("#tooltip_path").remove();
         });
+
+        svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
+        .attr("font-weight","bold")
+        .text("No of wins");
       }// drawGraph ends
       drawGraph(selected_team);
 
@@ -177,18 +183,11 @@
         return d;
       });
 
-      svg.append("text")
-      .attr("text-anchor", "middle")
-      .attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
-      .attr("font-weight","bold")
-      .text("Year");
-
-      svg.append("text")
-      .attr("text-anchor", "middle")
-      .attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
-      .attr("font-weight","bold")
-      .text("No of wins");
-
+      // svg.append("text")
+      // .attr("text-anchor", "middle")
+      // .attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
+      // .attr("font-weight","bold")
+      // .text("Year");
     });
   });
 })()
