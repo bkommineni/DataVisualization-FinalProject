@@ -65,6 +65,9 @@
 
 				d3.select("g").remove();
 
+				// console.log("Data=", data);
+				// console.log();
+				// matches data
 				var nested_data = d3.nest()
 													  .key(function(d) { return d[2]; })
 														.key(function(d) { return d[0]; })
@@ -163,6 +166,8 @@
 
 			}//Function initialGraph ends
 
+			initialGraph(batsman)
+
 			svg.append("text")
 			.attr("text-anchor", "middle")
 			.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
@@ -199,7 +204,6 @@
 			.text(function (d) {
 					return d[0].toUpperCase() + d.slice(1,d.length); // capitalize 1st letter
 				});
-				initialGraph(batsman)
 		});
 	</script>
 </body>
