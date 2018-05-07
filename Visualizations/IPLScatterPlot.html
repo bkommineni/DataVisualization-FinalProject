@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Line Chart</title>
+	<title>Scatter Plot</title>
 	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 	<style type="text/css">
 	#tooltip {
@@ -44,14 +44,12 @@
 	var h = 500;
 	var seasonMatches = new Map()
 	var batsman = "DA Warner";
-	var totalRuns = []
+	var totalRunsBalls = []
 	var xScale, yScale;
 
-	d3.csv("matches.csv", function(matches_data) {
-
-		d3.csv("deliveries.csv", function(data) {
+	d3.json("player_details.json", function(data) {
 			keys = d3.keys(data);
-
+			console.log("data=", data);
 			var margin = {top: 50, right: 100, bottom: 50, left: 100};
 			var svg = d3.select("body")
 			.append("svg")
@@ -60,69 +58,45 @@
 
 			w = svg.attr("width") - margin.left - margin.right;
 			h = svg.attr("height") - margin.top - margin.bottom;
-
 			//Fetching the data
-			matches_data.forEach(function(d){
-				if(!seasonMatches.get(+d.season)){
-					var ids = [];
-					ids.push(+d.id);
-					seasonMatches.set(+d.season,ids);
-				}
-				else {
-					var ids = seasonMatches.get(+d.season);
-					ids.push(+d.id);
-					seasonMatches.set(+d.season, ids);
-				}
-			});
 
-			var allYearPlayerMap = new Map()
-			// var matches = seasonMatches.get(selected_year);
+			var ballsRunsMap = new Map()
 			var initialGraph = function(batsman){
 
 				d3.select("g").remove();
 
-				var years = Array.from(seasonMatches.keys())
-				years.forEach(function(s){
-					// console.log(s);
-					var matches = seasonMatches.get(s)
-					var nested_data = d3.nest()
-					.key(function(d) {
-						if(matches.includes(+d.match_id))
-						if(d.batsman == batsman){
-							return d.batsman
-						}
-					})
-					.rollup(function(d) {
-						return d3.sum(d, function(g) {
-							if(g.total_runs != "")
-							{
-								totalRuns.push(g.total_runs);
-								return 1;
+				var nested_data = d3.nest()
+													  .key(function(d) { return d[2]; })
+														.key(function(d) { return d[0]; })
+														.key(function(d) { return d[1]; })
+													  .rollup(function(v) {
+															return { "total_runs": d3.sum(v, function(d) {return d[4]}),
+															"balls_faced":d3.sum(v, function(d) {return d[3]})}
+														})
+													  .entries(data);
+				//matches data ends
+				console.log("Nested data count=", nested_data);
+				nested_data.forEach(function(d){
+					d.values.forEach(function(i){
+						i.values.forEach(function(j){
+							if (d.key == batsman) {
+								ballsRunsMap.set(i.key, j.value)
+								totalRunsBalls.push(j.value)
 							}
-						});
-					})
-					.entries(data);
-					console.log("nested_data", nested_data);
-					nested_data = nested_data.filter(function(d) { return d.key != "undefined" ;});
-					nested_data.forEach(function(val){
-						allYearPlayerMap.set(s, val.value)
+						})
 					})
 				})
-				// console.log(allYearPlayerMap);
-
-				allYearPlayerArray = Array.from(allYearPlayerMap)
-				// console.log(allYearPlayerArray);
-
-				allYearPlayerArray.sort()
-
+				console.log("map", ballsRunsMap);
+				console.log("totalRunsBalls", totalRunsBalls);
 				// Scaling
-				xScale = d3.scaleBand()
-				.domain(allYearPlayerArray.map(function(d) { return d[0]; }))
+				xScale = d3.scaleLinear()
+				.domain([0, d3.max(totalRunsBalls, function(d) {
+					// console.log("element", d);
+					return d.total_runs;})])
 				.rangeRound([0, w])
-				.paddingInner(1);
 
 				yScale = d3.scaleLinear()
-				.domain([0, d3.max(allYearPlayerArray, function(d) { return d[1];})])
+				.domain([0, d3.max(totalRunsBalls, function(d) { return d.balls_faced;})])
 				.rangeRound([h,0]);
 
 				var g = svg.append("g")
@@ -135,7 +109,7 @@
 				.attr("font-weight","bold")
 				.style("font-size", "16px")
 				.style("text-decoration", "underline")
-				.text("IPL Data - Line chart for Batsman: " + batsman);
+				.text("IPL Data - Scatter Plot for Batsman: " + batsman);
 
 				//line function
 				var line = d3.line()
@@ -162,43 +136,25 @@
 				.attr("dy", "0.71em")
 				.attr("text-anchor", "end");
 
-				g.append("path")
-				.datum(allYearPlayerArray)
-				.attr("fill", "none")
-				.attr("stroke", "steelblue")
-				.attr("stroke-linejoin", "round")
-				.attr("stroke-linecap", "round")
-				.attr("stroke-width", 1.5)
-				.attr("d", line);
-
 				g.selectAll("circle")
-				.data(allYearPlayerArray).enter()
+				.data(totalRunsBalls).enter()
 				.append("circle")
-				.attr("cx", function(d) { return xScale(d[0]); })
-				.attr("cy", function(d) { return yScale(d[1]); })
+				.attr("cx", function(d) {
+					return xScale(d.total_runs); })
+				.attr("cy", function(d) { return yScale(d.balls_faced); })
 				.attr("r", function(d, i) { return 4; })
-				.style("fill", "steelblue")
+				.style("fill", "coral")
 				.on("mouseover", function(d){
-
+					console.log("d in mouseover", d);
 					d3.select("#tooltip")
-					.style("left", xScale(d[0]) + "px")
-					.style("top", yScale(d[1]) + "px")
+					.style("left", xScale(d.total_runs) + "px")
+					.style("top", yScale(d.balls_faced) + "px")
 					.select("#value")
-					.text(d[1] + " runs in " + d[0] + " by "+ batsman)
+					.text(d.total_runs + " runs in " + d.balls_faced + " balls by "+ batsman)
 					//Show the tooltip
+					console.log("d=", d);
 					d3.select("#tooltip").classed("hidden", false);
 
-					//tooltip path
-					g.selectAll("#tooltip_path").data(d).enter().append("line")
-	          .attr("id", "tooltip_path")
-	          .attr("class", "line")
-	          .attr("d", line)
-	          .attr("x1", xScale(d[0]))
-	          .attr("x2", xScale(d[0]))
-	          .attr("y1", h)
-	          .attr("y2", yScale(d[1]))
-	          .attr("stroke", "steelblue")
-	          .style("stroke-dasharray", ("3, 3"));
 				})
 				.on("mouseout", function(d) {
 						d3.select("#tooltip").classed("hidden", true);
@@ -207,19 +163,17 @@
 
 			}//Function initialGraph ends
 
-			initialGraph(batsman)
-
 			svg.append("text")
 			.attr("text-anchor", "middle")
 			.attr("transform", "translate("+ (margin.left/4) +","+(h/2)+")rotate(-90)")
 			.attr("font-weight","bold")
-			.text("Total number of runs");
+			.text("Balls Faced");
 
 			svg.append("text")
 			.attr("text-anchor", "middle")
 			.attr("transform", "translate("+ (w/2) +","+(h+(margin.top*2))+")")
 			.attr("font-weight","bold")
-			.text("Year");
+			.text("Number of runs");
 
 			var dropdown = d3.select("#vis-container")
 			.insert("select", "svg")
@@ -232,11 +186,8 @@
 
 			var unique_players = []
 			data.forEach(function(d){
-				if(!unique_players.includes(d.batsman)){
-					unique_players.push(d.batsman)
-				}
-				if(!unique_players.includes(d.bowler)){
-					unique_players.push(d.bowler)
+				if(!unique_players.includes(d[2])){
+					unique_players.push(d[2])
 				}
 			})
 			unique_players =  unique_players.sort();
@@ -248,8 +199,8 @@
 			.text(function (d) {
 					return d[0].toUpperCase() + d.slice(1,d.length); // capitalize 1st letter
 				});
+				initialGraph(batsman)
 		});
-	});
 	</script>
 </body>
 </html>
