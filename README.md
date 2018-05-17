@@ -7,7 +7,7 @@
 > [Alternate Project Proposal Link](https://github.com/bkommineni/DataVisualization-FinalProject/blob/master/ProcessBook/ProcessBook.pdf)
 
 ### [Process Book](https://docs.google.com/document/d/1NN0hg_sKPRI8NluSnCN3yvN77Vo-hxd3sUvPaotS2hg/edit?usp=sharing)
-> [Alternate Process Book Link](https://github.com/bkommineni/DataVisualization-FinalProject/blob/master/ProjectProposal/ProjectProposal.pdf)
+> [Pdf format of Process Book Link](https://github.com/bkommineni/DataVisualization-FinalProject/blob/master/ProjectProposal/ProjectProposal.pdf)
 
 ### [Final Presentation Slides](https://docs.google.com/presentation/d/17pL_OeR0iRUPNI6oq7ve2MfGkkpwkzHgH65s63K0YJU/edit?usp=sharing)
 > [Alternate Presentation Slides Link](https://github.com/bkommineni/DataVisualization-FinalProject/blob/master/PresentationSlides/FinalPresentationDataViz.pdf)
