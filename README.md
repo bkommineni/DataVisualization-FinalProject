@@ -16,5 +16,5 @@
 
 ### Description of Github Repository
 * [Data Folder having all the data files](https://github.com/bkommineni/DataVisualization-FinalProject/tree/master/data)
-* [Visualizations folder conating .html files for single visualizations](https://github.com/bkommineni/DataVisualization-FinalProject/tree/master/Visualizations)
-* [Visualizations/js folder conating .js files for embedding the visualizations on a single page](https://github.com/bkommineni/DataVisualization-FinalProject/tree/master/Visualizations/js)
+* [Visualizations folder containing .html files for single visualizations](https://github.com/bkommineni/DataVisualization-FinalProject/tree/master/Visualizations)
+* [Visualizations/js folder containing .js files for embedding the visualizations on a single page](https://github.com/bkommineni/DataVisualization-FinalProject/tree/master/Visualizations/js)
