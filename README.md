@@ -19,7 +19,7 @@
 * [Visualizations folder containing .html files for single visualizations](https://github.com/bkommineni/DataVisualization-FinalProject/tree/master/Visualizations)
 * [Visualizations/js folder containing .js files for embedding the visualizations on a single page](https://github.com/bkommineni/DataVisualization-FinalProject/tree/master/Visualizations/js)
 
-#### Non obvious features explained:
+### Non obvious features explained:
 The chord diagram can be a little tricky to interact with. Here are the guidelines for the same:
 * Mouseover to focus on a team 
 * The tool tip can give you the overall matches for a team
